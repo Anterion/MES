@@ -69,6 +69,10 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 	String empleadoRealiza;
 	
 	
+	/**
+	 * Puebla la tabla de coches disponibles en la sucursal para la reserva.
+	 * @param newValue La reserva para la que se buscan coches.
+	 */
 	public void rellenaTabla(Reserva newValue){
 		
 		coches.getItems().clear();
@@ -105,9 +109,17 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 			alerta.showAndWait();
 		}
 	}
+	/**
+	 * Establece la matrícula del coche actual.
+	 * @param matr
+	 */
 	public void setMat(String matr){
 		ControladorListarReservas.matriculaCoche=matr;
 	}
+	/**
+	 * Obtiene la matrícula del coche actual.
+	 * @return
+	 */
 	public static String getMat(){
 		return matriculaCoche;
 	}
@@ -115,6 +127,11 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 		return id;
 	}
 	
+	/**
+	 * Inicializa los campos de la ventana listar-reservas y comprueba los campos de la misma al finalizar el dialogo.
+	 * @param arg0 El path a el archivo FXML a cargar
+	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
+	 */
     @Override 
 	public void initialize(URL location, ResourceBundle resources) { 
     	stage = new Stage(StageStyle.DECORATED); 

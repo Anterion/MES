@@ -25,6 +25,12 @@ public class ControladorCrearSucursal extends ControladorCasoDeUso {
 	@FXML
 	private Button cancelar;
 	private Sucursal nuevaSucursal;
+	
+	/**
+	 * Inicializa los campos de la ventana crear-sucursal y comprueba los campos de la misma al finalizar el dialogo.
+	 * @param arg0 El path a el archivo FXML a cargar
+	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {

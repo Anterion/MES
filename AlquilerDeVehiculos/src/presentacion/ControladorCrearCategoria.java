@@ -15,6 +15,9 @@ import javafx.stage.StageStyle;
 import logica.AlquilerVehiculos;
 import logica.Categoria;
 
+/**
+ * Controlador para la ventana de Crear categoría, que añade categorías nuevas a la aplicación.
+ */
 public class ControladorCrearCategoria extends ControladorCasoDeUso {
 	@FXML
 	private TextField nombre;
@@ -35,6 +38,11 @@ public class ControladorCrearCategoria extends ControladorCasoDeUso {
 	@FXML
 	private Button cancelar;
 	private Categoria nuevaCategoria;
+	/**
+	 * Inicializa los campos de la ventana crear-categoria y comprueba los campos de la misma al finalizar el dialogo.
+	 * @param arg0 El path a el archivo FXML a cargar
+	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		stage = new Stage(StageStyle.DECORATED);

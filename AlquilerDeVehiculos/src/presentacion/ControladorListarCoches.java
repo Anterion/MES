@@ -35,6 +35,11 @@ public class ControladorListarCoches extends ControladorCasoDeUso {
 	@FXML 
 	private Button aceptar; 
 	
+	
+	/**
+	 * Puebla los datos de la tabla de coches
+	 * @param newValue Sucursal de la que se desea listar los coches
+	 */
 	public void rellenaTabla(Sucursal newValue){
 		this.coches.getItems().clear();
 		matricula.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getMatricula())); 
@@ -52,7 +57,11 @@ public class ControladorListarCoches extends ControladorCasoDeUso {
 		}
 	}
 	
-	
+	/**
+	 * Inicializa los campos de la ventana listar-coches y comprueba los campos de la misma al finalizar el dialogo.
+	 * @param arg0 El path a el archivo FXML a cargar
+	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
+	 */
 	@Override 
 	public void initialize(URL location, ResourceBundle resources) { 
 		stage = new Stage(StageStyle.DECORATED); 

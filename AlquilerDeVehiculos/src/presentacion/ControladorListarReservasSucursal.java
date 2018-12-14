@@ -42,6 +42,10 @@ public class ControladorListarReservasSucursal extends ControladorCasoDeUso{
 	@FXML
 	private Button  aceptar;
 
+	/**
+	 * Puebla la tabla de reservas.
+	 * @param newValue La sucursal de la que se van a listar las reservas.
+	 */
 	public void rellenaTabla(Sucursal newValue){
 		
 		this.reservas.getItems().clear();
@@ -57,6 +61,11 @@ public class ControladorListarReservasSucursal extends ControladorCasoDeUso{
 		
 	}
 	
+	/**
+	 * Inicializa los campos de la ventana listar-reservas-sucursales y comprueba los campos de la misma al finalizar el dialogo.
+	 * @param arg0 El path a el archivo FXML a cargar
+	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
+	 */
 	@Override
     public void initialize(URL location, ResourceBundle resources) {
 		

@@ -48,6 +48,11 @@ public class ControladorCrearEntrega extends ControladorCasoDeUso {
 		return nuevaEntrega;
 	}
 	
+	/**
+	 * Inicializa los campos de la ventana crear-entrega y comprueba los campos de la misma al finalizar el dialogo.
+	 * @param arg0 El path a el archivo FXML a cargar
+	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		

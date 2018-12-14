@@ -38,6 +38,12 @@ public class ControladorListarClientes extends ControladorCasoDeUso {
     private TableColumn<Cliente, String> dni;
     @FXML
     private TableColumn<Cliente, String> caducidadTC;
+    
+	/**
+	 * Inicializa los campos de la ventana listar-clientes y comprueba los campos de la misma al finalizar el dialogo.
+	 * @param arg0 El path a el archivo FXML a cargar
+	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
+	 */
     @Override 
 	public void initialize(URL location, ResourceBundle resources) { 
 		stage = new Stage(StageStyle.DECORATED); 

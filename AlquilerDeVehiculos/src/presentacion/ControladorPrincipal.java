@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
+/**
+ * Controlador principal de la aplicación, maneja la ventana principal e inicializa las ventanas. 
+ * Gestiona los botones de los menús y las distintas funciones principales de la aplicación.
+ */
 public class ControladorPrincipal { 
 	@FXML
 	private MenuItem salir;

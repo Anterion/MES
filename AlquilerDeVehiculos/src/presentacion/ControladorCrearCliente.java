@@ -46,6 +46,12 @@ public class ControladorCrearCliente extends ControladorCasoDeUso {
 	int dia;
 	String hora="00:00:00";
 	String completo;
+	
+	/**
+	 * Inicializa los campos de la ventana crear-cliente y comprueba los campos de la misma al finalizar el dialogo.
+	 * @param arg0 El path a el archivo FXML a cargar
+	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
+	 */
 	@Override 
 	public void initialize(URL location, ResourceBundle resources) { 
 		
