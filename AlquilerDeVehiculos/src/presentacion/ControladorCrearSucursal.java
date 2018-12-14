@@ -33,7 +33,7 @@ public class ControladorCrearSucursal extends ControladorCasoDeUso {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		stage = new Stage(StageStyle.DECORATED);
         stage.setTitle("CREAR SUCURSAL");
         cancelar.setOnAction(event -> stage.close());
@@ -47,7 +47,7 @@ public class ControladorCrearSucursal extends ControladorCasoDeUso {
             }
         	if(error.length()!=0){
         		Alert alerta = new Alert(AlertType.ERROR);
-        		alerta.initStyle(StageStyle.UNIFIED);
+        		alerta.initStyle(StageStyle.DECORATED);
 				alerta.setContentText(error);
 				alerta.setHeaderText("Error");
 				alerta.showAndWait();
@@ -57,7 +57,7 @@ public class ControladorCrearSucursal extends ControladorCasoDeUso {
         	if (nuevaSucursal != null){
         		AlquilerVehiculos.getAlquilerVehiculos().crearSucursal(nuevaSucursal);
         		Alert alerta = new Alert(AlertType.CONFIRMATION);
-        		alerta.initStyle(StageStyle.UNIFIED);
+        		alerta.initStyle(StageStyle.DECORATED);
 				alerta.setContentText("Sucursal creada correctamente");
 				alerta.setHeaderText("");
 				alerta.showAndWait();
