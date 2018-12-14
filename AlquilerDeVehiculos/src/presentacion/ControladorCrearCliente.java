@@ -77,10 +77,16 @@ public class ControladorCrearCliente extends ControladorCasoDeUso {
             }
         	if (nombreApellidos.getText().trim().length() == 0) {
                 error += "Introduce el nombre y los apellidos\n";
+            }else{
+            	String str = nombreApellidos.getText().replaceAll("[^-?0-9]+", " ");
+            	if(!str.trim().isEmpty()){
+            		error += "El nombre no puede contener numeros ni caracteres especiales\n";
+            	}
+            	if (nombreApellidos.getText().trim().length() > 20) {
+                    error += "La longitud máxima para el nombre es de 20 carácteres\n";
+                }
             }
-        	if (nombreApellidos.getText().trim().length() > 20) {
-                error += "La longitud máxima para el nombre es de 20 carácteres\n";
-            }
+
         	if (direccion.getText().trim().length() == 0) {
                 error += "Introduce la dirección\n";
             }

@@ -159,7 +159,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 
         	 Alert alerta = new Alert(AlertType.ERROR);
 				alerta.initStyle(StageStyle.DECORATED);
-				alerta.setContentText("Este DNI no pertenece a ningÃºn cliente en nuestra base de datos, a continuación se mostrarÃ¡ la ventana para crear un nuevo cliente");
+				alerta.setContentText("Este DNI no pertenece a ningún cliente en nuestra base de datos, a continuación se mostrarÃ¡ la ventana para crear un nuevo cliente");
 				alerta.setHeaderText("Error DNI");
 				alerta.showAndWait();
 
