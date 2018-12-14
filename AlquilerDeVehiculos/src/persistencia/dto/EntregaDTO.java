@@ -3,6 +3,10 @@ package persistencia.dto;
 import java.time.LocalDateTime;
 
 
+/**
+ * @author Lois
+ * Data transfer object de Entrega. Utilizada para generar las tablas SQL.
+ */
 public class EntregaDTO {
 	private int id;
 	private LocalDateTime fecha;
@@ -13,6 +17,16 @@ public class EntregaDTO {
 	private String empleado;
 
 	
+	/**
+	 * Constructor de Entrega.
+	 * @param id Id de la entrega
+	 * @param fecha fecha de realización de la entrega
+	 * @param tipoSeguro Tipo de seguro deseado.
+	 * @param kms Kms recorridos
+	 * @param combustible Litros de combustible utilizado
+	 * @param coche Coche entregado.
+	 * @param empleado Empleado que realiza la entrega
+	 */
 	public EntregaDTO(int id, LocalDateTime fecha, String tipoSeguro, double kms, double combustible, String coche, String empleado){
 		setId(id);
 		setFecha(fecha);
@@ -23,27 +37,59 @@ public class EntregaDTO {
 		setEmpleado(empleado);
 	}
 	
+	/**
+	 * Obtener la fecha de entrega del coche.
+	 * @return La fecha de entrega.
+	 */
 	public LocalDateTime getFecha() {
 		return fecha;
 	}
+	/**
+	 * Establece la fecha de entrega del coche.
+	 * @param fecha La nueva fecha de entrega del coche.
+	 */
 	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
+	/**
+	 * Obtiene el tipo de seguro establecido en la reserva.
+	 * @return El tipo de seguro.
+	 */
 	public String getTipoSeguro() {
 		return tipoSeguro;
 	}
+	/**
+	 * Establece el tipo de seguro de la entrega.
+	 * @param tipoSeguro El tipo de seguro.
+	 */
 	public void setTipoSeguro(String tipoSeguro) {
 		this.tipoSeguro = tipoSeguro;
 	}
+	/**
+	 * Obtiene el número de km recorridos.
+	 * @return El numero de km recorridos.
+	 */
 	public double getKms() {
 		return kms;
 	}
+	/**
+	 * Establece los kms recorridos por el vehículo.
+	 * @param kms
+	 */
 	public void setKms(double kms) {
 		this.kms = kms;
 	}
+	/**
+	 * Obtiene los litros de conbustible utilizados durante el uso del coche.
+	 * @return
+	 */
 	public double getCombustible() {
 		return combustible;
 	}
+	/**
+	 * Establece los litros de combustible utilizados por el cliente
+	 * @param combustible
+	 */
 	public void setCombustible(double combustible) {
 		this.combustible = combustible;
 	}

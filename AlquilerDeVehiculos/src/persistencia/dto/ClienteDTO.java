@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author Lois
- * Data transfer object de Cleinte. Utilizada para generar las tablas SQL.
+ * Data transfer object de Cliente. Utilizada para generar las tablas SQL.
  */
 public class ClienteDTO {
 	private String dni;
