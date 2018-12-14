@@ -41,7 +41,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 
         @FXML
         private TextField dni;
-        
+
         @FXML
         private TextField modAl;
 
@@ -53,7 +53,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 
         @FXML
         private ComboBox<String> lugarDev;
-        
+
         @FXML
         private ComboBox<String> tipoSeg;
 
@@ -63,12 +63,12 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
         @FXML
         private Button cancelar;
 
-        
+
         private Reserva nuevaReserva;
         String cat="";
 
         /**
-         * Metodo que inicializa el formulario y la verifiaci贸n de los diferentes campos del mismo.
+         * Metodo que inicializa el formulario y la verifiaci髇 de los diferentes campos del mismo.
          *@param location The location used to resolve relative paths for the root object, or null if the location is not known.
          *@param resources The resources used to localize the root object, or null ifthe root object was not localized.
          */
@@ -82,16 +82,16 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 		listaSucursal = AlquilerVehiculos.getAlquilerVehiculos().listarSucursales();
         List<Categoria> listaCategoria = null;
 		listaCategoria = AlquilerVehiculos.getAlquilerVehiculos().listarCategorias();
-        
+
         for(Sucursal suc : listaSucursal){
         	lugarRec.getItems().add(suc.getDireccion());
         	lugarDev.getItems().add(suc.getDireccion());
         }
-        
+
         for(Categoria cat : listaCategoria){
         	categoriaAsoc.getItems().add(cat.getNombre());
         }
-    
+
         try {
 			id.setText(ReservaDAOImp.buscarIdMaxReserva());
 		} catch (DAOExcepcion e) {
@@ -100,23 +100,28 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 		}
         tipoSeg.getItems().add("Seguro a todo riesgo");
         tipoSeg.getItems().add("Seguro a terceros");
-           
+
         categoriaAsoc.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->cat = newValue);
 
-        cancelar.setOnAction(event -> stage.close()); 
+        cancelar.setOnAction(event -> stage.close());
         aceptar.setOnAction(event -> {
         	String error="";
+        	boolean isnull = false;
         	if (fechaRecogida.getValue() == null) {
                 error += "Introduce la fecha de recogida\n";
+                isnull = true;
             }
 
             if (fechaDevolucion.getValue() == null) {
-            	error += "Introduce la fecha de devoluci贸n\n";
+            	error += "Introduce la fecha de devoluci髇\n";
+            	isnull = true;
+            }
+            if(!isnull){
+            	if((fechaRecogida.getValue().isAfter(fechaDevolucion.getValue()))){
+                	error += "La fecha de devoluci髇 ha de ser posterior a la de recogida\n";
+                }
             }
 
-            if(fechaRecogida.getValue().isAfter(fechaDevolucion.getValue())){
-            	error += "La fecha de devoluci贸n ha de ser posterior a la de recogida\n";
-            }
 
             if (dni.getText().trim().length() == 0) {
             	error += "Introduce el dni\n";
@@ -137,27 +142,27 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             }
 
             if (lugarDev.getSelectionModel().getSelectedItem()== null) {
-            	error += "Selecciona una lugar de devoluci贸n\n";
+            	error += "Selecciona una lugar de devoluci髇\n";
             }
 
-        	
-        	
+
+
         	if(error.length()!=0){
         		Alert alerta = new Alert(AlertType.ERROR);
-        		alerta.initStyle(StageStyle.UNIFIED);
+        		alerta.initStyle(StageStyle.DECORATED);
 				alerta.setContentText(error);
 				alerta.setHeaderText("Error");
 				alerta.showAndWait();
         	} else {
         	if(!dni.getText().isEmpty())
          if(AlquilerVehiculos.getAlquilerVehiculos().buscarCliente(dni.getText())==null){
-        	
+
         	 Alert alerta = new Alert(AlertType.ERROR);
 				alerta.initStyle(StageStyle.DECORATED);
-				alerta.setContentText("Este DNI no pertenece a ning煤n cliente en nuestra base de datos, a continuaci贸n se mostrar谩 la ventana para crear un nuevo cliente");
+				alerta.setContentText("Este DNI no pertenece a ning煤n cliente en nuestra base de datos, a continuaci髇 se mostrar谩 la ventana para crear un nuevo cliente");
 				alerta.setHeaderText("Error DNI");
 				alerta.showAndWait();
-				
+
 				FXMLLoader loader = new FXMLLoader(AlquilerVehiculosApp.class.getResource("crear-cliente.fxml"));
 	            GridPane ventanaDos = null;
 				try {
@@ -166,7 +171,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	            
+
 	            ventana.setTitle("CREAR CLIENTE");
 	            ventana.initOwner(stage);
 	            Scene scene = new Scene(ventanaDos);
@@ -175,17 +180,17 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 	            controller.setControladorPrincipal(controladorPrincipal);
 	            ventana.show();
 	            //ventana.getClass()
-	            
+
 	           // aceptar.setOnAction(event1 -> ventana.close());
 
-	              	 	 
+
          }  else{
             String cli = AlquilerVehiculos.getAlquilerVehiculos().buscarCliente(dni.getText()).getDni();
            Categoria categoria = AlquilerVehiculos.getAlquilerVehiculos().buscarCategoria(cat);
 
 			nuevaReserva = new Reserva(
-            		
-					Integer.parseInt(id.getText()),					
+
+					Integer.parseInt(id.getText()),
 					LocalDateTime.of(fechaRecogida.getValue(), LocalTime.MIDNIGHT),
             		LocalDateTime.of(fechaDevolucion.getValue(), LocalTime.MIDNIGHT),
             		Integer.parseInt(modAl.getText()),
@@ -193,14 +198,14 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             		cli,
             		lugarRec.getSelectionModel().selectedIndexProperty().getValue()+1,
             	    lugarDev.getSelectionModel().selectedIndexProperty().getValue()+1
-                    
+
                     );
          }  }
             if (nuevaReserva != null) {
-            	
+
 				AlquilerVehiculos.getAlquilerVehiculos().crearReserva(nuevaReserva);
 				Alert alerta = new Alert(AlertType.CONFIRMATION);
-        		alerta.initStyle(StageStyle.UNIFIED);
+        		alerta.initStyle(StageStyle.DECORATED);
 				alerta.setContentText("Reserva creada correctamente");
 				alerta.setHeaderText("");
 				alerta.showAndWait();
@@ -209,11 +214,11 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             } else {
                 LOG.log(Level.INFO, "No se ha podido crear una nueva reserva.");
             }
-            
-            
-            
+
+
+
         });
 
-       
+
         }
 }

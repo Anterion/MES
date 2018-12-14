@@ -43,11 +43,11 @@ public class ControladorCrearEntrega extends ControladorCasoDeUso {
 	String completo;
 	private Entrega nuevaEntrega;
 	String matricula;
-	
+
 	public Entrega getNuevaEntrega(){
 		return nuevaEntrega;
 	}
-	
+
 	/**
 	 * Inicializa los campos de la ventana crear-entrega y comprueba los campos de la misma al finalizar el dialogo.
 	 * @param arg0 El path a el archivo FXML a cargar
@@ -55,22 +55,22 @@ public class ControladorCrearEntrega extends ControladorCasoDeUso {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		
+
+
 		fechaEntrega.setValue(LocalDate.now());
 		matricula=ControladorListarReservas.getMat().trim();
 		id.setText(ControladorListarReservas.getIdReserva());
-		
+
 		stage = new Stage(StageStyle.DECORATED);
         stage.setTitle("CREAR CATEGORIA");
         cancelar.setOnAction(event -> {
         	Stage miStage = (Stage) cancelar.getScene().getWindow();
 			miStage.close();
         	stage.close();
-        }); 
+        });
         aceptar.setOnAction(event -> {
         	Stage miStage = (Stage) aceptar.getScene().getWindow();
-			
+
         	String error="";
         	if (kms.getText().trim().length() == 0) {
             	error += "Introduce los kilometros\n";
@@ -86,27 +86,27 @@ public class ControladorCrearEntrega extends ControladorCasoDeUso {
             }
         	if(error.length()!=0){
         		Alert alerta = new Alert(AlertType.ERROR);
-        		alerta.initStyle(StageStyle.UNIFIED);
+        		alerta.initStyle(StageStyle.DECORATED);
 				alerta.setContentText(error);
 				alerta.setHeaderText("Error");
 				alerta.showAndWait();
         	} else {
-          		
+
     			nuevaEntrega = new Entrega(Integer.parseInt(id.getText()),LocalDateTime.of(fechaEntrega.getValue(), LocalTime.MIDNIGHT), tipoSeguro.getText(), Double.parseDouble(kms.getText()), Double.parseDouble(combustible.getText()), matricula,empleado.getText());
     			if (nuevaEntrega != null) {
-    			
+
     			AlquilerVehiculos.getAlquilerVehiculos().crearEntrega(nuevaEntrega);
     			Alert alerta = new Alert(AlertType.CONFIRMATION);
-        		alerta.initStyle(StageStyle.UNIFIED);
+        		alerta.initStyle(StageStyle.DECORATED);
 				alerta.setContentText("Entrega creada correctamente");
 				alerta.setHeaderText("");
 				alerta.showAndWait();
                 Stage stage = (Stage) aceptar.getScene().getWindow();
-                
+
                 stage.close();
-                
+
             } else {
-                
+
             }
         	}
         	miStage.close();

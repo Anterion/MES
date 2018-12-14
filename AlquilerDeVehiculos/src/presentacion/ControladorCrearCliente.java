@@ -13,57 +13,57 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logica.*;
 
-public class ControladorCrearCliente extends ControladorCasoDeUso { 
-	@FXML 
-	private TextField dni; 
-	@FXML 
-	private TextField nombreApellidos; 
-	@FXML 
-	private TextField direccion; 
-	@FXML 
-	private TextField anyoTC; 
-	@FXML 
-	private TextField mesTC; 
-	@FXML 
-	private TextField codigoPostal; 
-	@FXML 
-	private TextField poblacion; 
-	@FXML 
-	private DatePicker fechaCarnet; 
-	@FXML 
-	private TextField cvc; 
+public class ControladorCrearCliente extends ControladorCasoDeUso {
 	@FXML
-	private TextField tipoTarjeta; 
-	@FXML 
-	private TextField digitosTC; 
-	@FXML 
-	public Button aceptar; 
-	@FXML 
-	private Button cancelar; 
-	public Cliente nuevoCliente; 
+	private TextField dni;
+	@FXML
+	private TextField nombreApellidos;
+	@FXML
+	private TextField direccion;
+	@FXML
+	private TextField anyoTC;
+	@FXML
+	private TextField mesTC;
+	@FXML
+	private TextField codigoPostal;
+	@FXML
+	private TextField poblacion;
+	@FXML
+	private DatePicker fechaCarnet;
+	@FXML
+	private TextField cvc;
+	@FXML
+	private TextField tipoTarjeta;
+	@FXML
+	private TextField digitosTC;
+	@FXML
+	public Button aceptar;
+	@FXML
+	private Button cancelar;
+	public Cliente nuevoCliente;
 	int anyo;
 	int mes;
 	int dia;
 	String hora="00:00:00";
 	String completo;
-	
+
 	/**
 	 * Inicializa los campos de la ventana crear-cliente y comprueba los campos de la misma al finalizar el dialogo.
 	 * @param arg0 El path a el archivo FXML a cargar
 	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
 	 */
-	@Override 
-	public void initialize(URL location, ResourceBundle resources) { 
-		
-		stage = new Stage(StageStyle.DECORATED); 
-		stage.setTitle("CREAR CLIENTE"); 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+
+		stage = new Stage(StageStyle.DECORATED);
+		stage.setTitle("CREAR CLIENTE");
 		cancelar.setOnAction(event -> {
 			Stage miStage = (Stage) aceptar.getScene().getWindow();
 			miStage.close();
 			stage.close();
-			}); 
-		
-		aceptar.setOnAction(event -> { 
+			});
+
+		aceptar.setOnAction(event -> {
 			Stage miStage = (Stage) aceptar.getScene().getWindow();
         	String error="";
         	if (dni.getText().trim().length() == 0) {
@@ -132,16 +132,16 @@ public class ControladorCrearCliente extends ControladorCasoDeUso {
         	if (tipoTarjeta.getText().trim().length()>10) {
                 error += "La longitud máxima para el tipo de tarjeta es de 10 carácteres\n";
             }
-        	
+
         	if(error.length()!=0){
         		Alert alerta = new Alert(AlertType.ERROR);
-        		alerta.initStyle(StageStyle.UNIFIED);
+        		alerta.initStyle(StageStyle.DECORATED);
 				alerta.setContentText(error);
 				alerta.setHeaderText("Error");
 				alerta.showAndWait();
         	}else{
-			nuevoCliente = new Cliente(dni.getText().toUpperCase(), nombreApellidos.getText(), direccion.getText(),poblacion.getText(), codigoPostal.getText(), LocalDateTime.of(fechaCarnet.getValue(), LocalTime.MIDNIGHT), digitosTC.getText(), Integer.parseInt(mesTC.getText()), Integer.parseInt(anyoTC.getText()), Integer.parseInt(cvc.getText()), tipoTarjeta.getText()); 
-			if (nuevoCliente != null) { 
+			nuevoCliente = new Cliente(dni.getText().toUpperCase(), nombreApellidos.getText(), direccion.getText(),poblacion.getText(), codigoPostal.getText(), LocalDateTime.of(fechaCarnet.getValue(), LocalTime.MIDNIGHT), digitosTC.getText(), Integer.parseInt(mesTC.getText()), Integer.parseInt(anyoTC.getText()), Integer.parseInt(cvc.getText()), tipoTarjeta.getText());
+			if (nuevoCliente != null) {
 			try {
 				AlquilerVehiculos.getAlquilerVehiculos().crearCliente(nuevoCliente);
 				Alert alerta = new Alert(AlertType.CONFIRMATION);
@@ -153,9 +153,9 @@ public class ControladorCrearCliente extends ControladorCasoDeUso {
 				miStage.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-					} 
-				} 
+					}
+				}
 			}
-		}); 
+		});
 	}
 }

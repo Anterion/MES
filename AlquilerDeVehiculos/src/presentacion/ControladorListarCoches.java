@@ -15,64 +15,64 @@ import logica.AlquilerVehiculos;
 import logica.Sucursal;
 import logica.Coche;
 
-public class ControladorListarCoches extends ControladorCasoDeUso { 
-	@FXML 
-	private TableView<Coche> coches; 
-	@FXML 
-	private TableColumn<Coche, String> matricula; 
-	@FXML 
-	private TableColumn<Coche, Double> km; 
-	@FXML 
-	private TableColumn<Coche, Integer> sucursal; 
-	@FXML 
-	private TableColumn<Coche, String> categoria; 
-	@FXML 
+public class ControladorListarCoches extends ControladorCasoDeUso {
+	@FXML
+	private TableView<Coche> coches;
+	@FXML
+	private TableColumn<Coche, String> matricula;
+	@FXML
+	private TableColumn<Coche, Double> km;
+	@FXML
+	private TableColumn<Coche, Integer> sucursal;
+	@FXML
+	private TableColumn<Coche, String> categoria;
+	@FXML
 	private TableView<Sucursal> sucursales;
 	@FXML
 	private TableColumn<Sucursal,Integer> idSuc;
 	@FXML
 	private TableColumn<Sucursal,String> direccion;
-	@FXML 
-	private Button aceptar; 
-	
-	
+	@FXML
+	private Button aceptar;
+
+
 	/**
 	 * Puebla los datos de la tabla de coches
 	 * @param newValue Sucursal de la que se desea listar los coches
 	 */
 	public void rellenaTabla(Sucursal newValue){
 		this.coches.getItems().clear();
-		matricula.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getMatricula())); 
-		km.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getKmsActuales())); 
-		sucursal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(newValue.getId())); 
-		categoria.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getCategoria())); 
-		this.coches.getItems().addAll(AlquilerVehiculos.getAlquilerVehiculos().listarCoches(newValue.getId())); 
-		
+		matricula.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getMatricula()));
+		km.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getKmsActuales()));
+		sucursal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(newValue.getId()));
+		categoria.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getCategoria()));
+		this.coches.getItems().addAll(AlquilerVehiculos.getAlquilerVehiculos().listarCoches(newValue.getId()));
+
 		if(AlquilerVehiculos.getAlquilerVehiculos().listarCoches(newValue.getId()).isEmpty()){
 			Alert alerta = new Alert(AlertType.WARNING);
-    		alerta.initStyle(StageStyle.UNIFIED);
+    		alerta.initStyle(StageStyle.DECORATED);
 			alerta.setContentText("No hay coches disponibles para esta sucursal");
 			alerta.setHeaderText("");
 			alerta.showAndWait();
 		}
 	}
-	
+
 	/**
 	 * Inicializa los campos de la ventana listar-coches y comprueba los campos de la misma al finalizar el dialogo.
 	 * @param arg0 El path a el archivo FXML a cargar
 	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
 	 */
-	@Override 
-	public void initialize(URL location, ResourceBundle resources) { 
-		stage = new Stage(StageStyle.DECORATED); 
-		stage.setTitle("LISTADO DE COCHES"); 
-		aceptar.setOnAction(event -> stage.close()); 
-		idSuc.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getId())); 
-		direccion.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getDireccion())); 
-		this.sucursales.getItems().addAll(AlquilerVehiculos.getAlquilerVehiculos().listarSucursales()); 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		stage = new Stage(StageStyle.DECORATED);
+		stage.setTitle("LISTADO DE COCHES");
+		aceptar.setOnAction(event -> stage.close());
+		idSuc.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getId()));
+		direccion.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getDireccion()));
+		this.sucursales.getItems().addAll(AlquilerVehiculos.getAlquilerVehiculos().listarSucursales());
 		sucursales.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
 			rellenaTabla(newValue);
 		});
 
-		} 
+		}
 	}

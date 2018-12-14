@@ -23,7 +23,7 @@ import logica.Categoria;
 import logica.Coche;
 import logica.Reserva;
 
-public class ControladorListarReservas extends ControladorCasoDeUso { 
+public class ControladorListarReservas extends ControladorCasoDeUso {
 	@FXML
 	private TableView<Reserva> reservas;
 	@FXML
@@ -46,20 +46,20 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 	private TableColumn<Reserva, String> dni;
 	@FXML
 	private Button  aceptar;
-	@FXML 
-	private TableView<Coche> coches; 
-	@FXML 
-	private TableColumn<Coche, String> matricula; 
-	@FXML 
-	private TableColumn<Coche, Double> km; 
-	@FXML 
-	private TableColumn<Coche, Integer> sucursal; 
-	@FXML 
+	@FXML
+	private TableView<Coche> coches;
+	@FXML
+	private TableColumn<Coche, String> matricula;
+	@FXML
+	private TableColumn<Coche, Double> km;
+	@FXML
+	private TableColumn<Coche, Integer> sucursal;
+	@FXML
 	private TableColumn<Coche, String> categoria;
 	Categoria categoriaActual;
 	public static String matriculaCoche;
-	
-	
+
+
 	static String id;
 	LocalDate fecha;
 	String tipoSeguro;
@@ -67,23 +67,23 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 	double combustible;
 	String cocheAsignado;
 	String empleadoRealiza;
-	
-	
+
+
 	/**
 	 * Puebla la tabla de coches disponibles en la sucursal para la reserva.
 	 * @param newValue La reserva para la que se buscan coches.
 	 */
 	public void rellenaTabla(Reserva newValue){
-		
+
 		coches.getItems().clear();
 		List<Coche> listaCoche=null;
 		listaCoche = AlquilerVehiculos.getAlquilerVehiculos().listarCoches(newValue.getIdSucursalRecogida());
 		List<Coche> listaCocheRes=new ArrayList<Coche>();
-		matricula.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getMatricula())); 
-		km.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getKmsActuales())); 
-		sucursal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSucursal())); 
-		categoria.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getNombre())); 
-		
+		matricula.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getMatricula()));
+		km.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getKmsActuales()));
+		sucursal.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getSucursal()));
+		categoria.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getNombre()));
+
 		categoriaActual=AlquilerVehiculos.getAlquilerVehiculos().buscarCategoria(newValue.getCategoria().getNombre().trim());
 		while(categoriaActual.getSuperior()!=null){
 		for(int i=0;i<listaCoche.size();i++){
@@ -92,18 +92,18 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 		}
 		categoriaActual=AlquilerVehiculos.getAlquilerVehiculos().buscarCategoria(categoriaActual.getSuperior());
 		}
-		
+
 		for(int i=0;i<listaCoche.size();i++)
 		if(listaCoche.get(i).getNombre().trim().equals("luxury"))
 			listaCocheRes.add(listaCoche.get(i));
-		
+
 		this.coches.getItems().addAll(listaCocheRes);
-		
-		
-		
+
+
+
 		if(this.coches.getItems().isEmpty()){
 			Alert alerta = new Alert(AlertType.WARNING);
-    		alerta.initStyle(StageStyle.UNIFIED);
+    		alerta.initStyle(StageStyle.DECORATED);
 			alerta.setContentText("No hay coches disponibles para esta sucursal");
 			alerta.setHeaderText("");
 			alerta.showAndWait();
@@ -126,18 +126,18 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 	public static String getIdReserva(){
 		return id;
 	}
-	
+
 	/**
 	 * Inicializa los campos de la ventana listar-reservas y comprueba los campos de la misma al finalizar el dialogo.
 	 * @param arg0 El path a el archivo FXML a cargar
 	 * @param arg1 Propiedades de internacionalizacion de la interfaz grafica.
 	 */
-    @Override 
-	public void initialize(URL location, ResourceBundle resources) { 
-    	stage = new Stage(StageStyle.DECORATED); 
+    @Override
+	public void initialize(URL location, ResourceBundle resources) {
+    	stage = new Stage(StageStyle.DECORATED);
     	reservas.getItems().clear();
-		stage.setTitle("LISTADO DE RESERVAS"); 
-		aceptar.setOnAction(event -> stage.close()); 
+		stage.setTitle("LISTADO DE RESERVAS");
+		aceptar.setOnAction(event -> stage.close());
 		idRes.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getId()));
 		fechaRec.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getFechaRecogida()));
 		fechaDev.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getFechaDevolucion()));
@@ -153,8 +153,8 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 			rellenaTabla(newValue);
 		//AlquilerVehiculos.getAlquilerVehiculos().cargarSistema();
 		});
-		
-		
+
+
 		coches.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, nuevoValor)->{
 		if (nuevoValor!=null){
 			setMat(nuevoValor.getMatricula());
@@ -167,20 +167,20 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-            
+
             ventana.setTitle("CREAR ENTREGA");
             ventana.initOwner(stage);
             Scene scene = new Scene(ventanaDos);
             ventana.setScene(scene);
             ControladorCrearEntrega controller = loader.getController();
             controller.setControladorPrincipal(controladorPrincipal);
-            ventana.show();		
-          
-          
+            ventana.show();
+
+
 		}
-		
+
 		});
 
     }
-       
+
 }
