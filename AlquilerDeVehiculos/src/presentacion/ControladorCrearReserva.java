@@ -145,6 +145,10 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             	error += "Selecciona una lugar de devolución\n";
             }
 
+            if (tipoSeg.getSelectionModel().getSelectedItem()== null) {
+            	error += "Selecciona un tipo de seguro.\n";
+            }
+
 
 
         	if(error.length()!=0){
