@@ -115,7 +115,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             }
 
             if(fechaRecogida.getValue().isAfter(fechaDevolucion.getValue())){
-            	error += "La fecha de devolución ha de ser posterior a la de recogida\n";
+            	error += "La fecha de devolución ha de ser posterior a la de recogida probando\n";
             }
 
             if (dni.getText().trim().length() == 0) {
