@@ -8,6 +8,10 @@ import java.util.List;
 import persistencia.dto.ClienteDTO;
 import excepciones.DAOExcepcion;
 
+/**
+ * @author Lois
+ *Implementación de la interfaz IClienteDAO, contiene los métodos CRUD de clientes en la base de datos, así como la conexión a esta.
+ */
 public class ClienteDAOImp implements IClienteDAO {
 	int anyo;
 	int mes;
@@ -16,6 +20,10 @@ public class ClienteDAOImp implements IClienteDAO {
 	String completo;
 	protected ConnectionManager connManager;
 
+	/**
+	 * Constructor por defecto de CLienteDAOImp. Connecta la base de datos a la connection string = "alquilervehiculosBD"
+	 * @throws DAOExcepcion Lanzada cuando no existe la clase de conexión a la base de datos.
+	 */
 	public ClienteDAOImp() throws DAOExcepcion {
 		super();
 		try{
@@ -26,6 +34,11 @@ public class ClienteDAOImp implements IClienteDAO {
 			}
 	}
 
+	/**
+	 * Crea un nuevo cliente en la base de datos
+	 * @param cliente El cliente a añadir
+	 * @throws DAOExcepcion Lanzada cuando se produce un error de SQL,
+	 */
 	public void crearCliente(ClienteDTO cliente) throws DAOExcepcion{
 		try{
 			anyo=cliente.getFechaCanetConducir().getYear();
@@ -41,6 +54,12 @@ public class ClienteDAOImp implements IClienteDAO {
 		
 	}
 
+	/**
+	 * Busca un cliente en la base de datos
+	 * @param dni El DNI del cliente a buscar.
+	 * @return El objeto Cliente
+	 * @throws DAOExcepcion Lanzada cuando ocurre cualquier error en la consulta SQL.
+	 */
 	public ClienteDTO buscarCliente(String dni) throws DAOExcepcion {
 		
 		try{
@@ -73,6 +92,11 @@ public class ClienteDAOImp implements IClienteDAO {
 		catch (SQLException e){	throw new DAOExcepcion(e);}	
 	}
 
+	/**
+	 * Obtiene una lista con todos los clientes de la base de datos.
+	 * @return La lista de clientes
+	 * @throws DAOExcepcion Lanzada cuando se produce un error de acceso a la base de datos, o al construir el objeto cliente.
+	 */
 	@Override
 	public List<ClienteDTO> obtenerClientes() throws DAOExcepcion {
 		try{

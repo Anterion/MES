@@ -73,7 +73,7 @@ public class ControladorCrearCategoria extends ControladorCasoDeUso {
             }
         	if(error.length()!=0){
         		Alert alerta = new Alert(AlertType.ERROR);
-        		//alerta.initStyle(StageStyle.UNIFIED);		Se elimina esta linea que hace que el mensaje de error sea ilegible.
+        		alerta.initStyle(StageStyle.UNIFIED);
 				alerta.setContentText(error);
 				alerta.setHeaderText("Error");
 				alerta.showAndWait();
@@ -83,7 +83,7 @@ public class ControladorCrearCategoria extends ControladorCasoDeUso {
         	if (nuevaCategoria != null){
         		AlquilerVehiculos.getAlquilerVehiculos().crearCategoria(nuevaCategoria);
         		Alert alerta = new Alert(AlertType.CONFIRMATION);
-        		alerta.initStyle(StageStyle.DECORATED);
+        		alerta.initStyle(StageStyle.UNIFIED);
 				alerta.setContentText("Categoria creada correctamente");
 				alerta.setHeaderText("");
 				alerta.showAndWait();
@@ -91,7 +91,7 @@ public class ControladorCrearCategoria extends ControladorCasoDeUso {
                 stage.close();
         	}
         });
-
-
+        
+		
 	}
 }

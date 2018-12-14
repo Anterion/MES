@@ -9,6 +9,10 @@ import java.util.List;
 import excepciones.DAOExcepcion;
 import persistencia.dto.EntregaDTO;
 
+/**
+ * @author Lois
+ * Implementación de la interfaz IEntregaDAO, gestiona la conexión a la base de datos y el acesso para la tabla entregas.
+ */
 public class EntregaDAOImp implements IEntregaDAO {
 	protected static ConnectionManager connManager;
 	static String idmax;
@@ -18,6 +22,10 @@ public class EntregaDAOImp implements IEntregaDAO {
 	String hora="00:00:00";
 	String completo;
 
+	/**
+	 * Constructor por dedfecto, intenta la conexción con el connection string = "alquilervehiculosBD"
+	 * @throws DAOExcepcion Lanzada cuando no se puede conectar a la base de datos.
+	 */
 	public EntregaDAOImp() throws DAOExcepcion {
 		super();
 		try{
@@ -28,6 +36,11 @@ public class EntregaDAOImp implements IEntregaDAO {
 			}
 	}
 
+	/**
+	 * Obtiene la lista de todas las entregas en la base de datos.
+	 * @return
+	 * @throws DAOExcepcion Lanzada cuando la consulta SQL es incorrecta.
+	 */
 	@Override
 	public List<EntregaDTO> obtenerEntregas() throws DAOExcepcion {
 		List<EntregaDTO> listaEntregaDTO = new ArrayList<EntregaDTO>();
@@ -59,6 +72,11 @@ public class EntregaDAOImp implements IEntregaDAO {
 		return listaEntregaDTO;
 	}
 
+	/**
+	 * Crea una nueva entrega en la base de datos.
+	 * @param entregaDTO La nueva entrega
+	 * @throws DAOExcepcion Lanzada cuando se produce un error en la sentencia SQL de inserción.
+	 */
 	@Override
 	public void crearEntrega(EntregaDTO entregaDTO) throws DAOExcepcion {
 		try {
@@ -78,6 +96,11 @@ public class EntregaDAOImp implements IEntregaDAO {
 		}
 	}
 		
+	/**
+	 * Devuelve la entrega con el ID máximo (la última entrega)
+	 * @return La última entrega realizada.
+	 * @throws DAOExcepcion Lanzada cuando se produce un error en la base de datos.
+	 */
 	public static String buscarIdMaxEntrega() throws DAOExcepcion{
 		
 		try {

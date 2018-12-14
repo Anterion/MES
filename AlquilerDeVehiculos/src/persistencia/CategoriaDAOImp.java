@@ -6,9 +6,17 @@ import java.util.List;
 import persistencia.dto.CategoriaDTO;
 import excepciones.DAOExcepcion;
 
+/**
+ * @author Lois
+ * Implementación de la interfaz ICategoríaDAO, implementa los métodos de acceso a la base de datos, además de la conexión a esta para las categorías.
+ */
 public class CategoriaDAOImp implements ICategoriaDAO {
 	protected ConnectionManager connManager;
 
+	/**
+	 * Constructor por defecto. Intenta establecer conexión al connection string = "alquilervehiculosBD"
+	 * @throws DAOExcepcion Lanza esta excepción en caso de que no existan las librerías de conexión a la base de datos.
+	 */
 	public CategoriaDAOImp() throws DAOExcepcion {
 		super();
 		try{
@@ -18,6 +26,10 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 			throw new DAOExcepcion(e);
 			}
 	}
+	/**
+	 * Crea una nueva categoría y la sincroniza con la base de datos
+	 * @param categoria La nueva categoría a añadir
+	 */
 	public void crearCategoria (CategoriaDTO categoria){
 		try {
 			connManager.connect();
@@ -29,6 +41,12 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Busca una categoría en la base de datos.
+	 * @param nombre El nombre a buscar.
+	 * @return La categoría buscada, o null en caso de que no exista.
+	 * @throws DAOExcepcion Excepción lanzada cuando se produce un error en la consulta SQL.
+	 */
 	public CategoriaDTO buscarCategoria(String nombre) throws DAOExcepcion {
 		try{
 			connManager.connect();
@@ -51,6 +69,11 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 	}
 
 	
+	/**
+	 * Lista todas las categorías que existen en la base de datos.
+	 * @return La lista de categorías.
+	 * @throws DAOExcepcion Excepción lanzada cuandose produce cualquier error en la consulta SQL.
+	 */
 	public List<CategoriaDTO> obtenerCategorias() throws DAOExcepcion {
 		try{
 			connManager.connect();

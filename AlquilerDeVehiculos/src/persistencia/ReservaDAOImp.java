@@ -7,6 +7,10 @@ import java.util.List;
 import persistencia.dto.ReservaDTO;
 import excepciones.DAOExcepcion;
 
+/**
+ * @author Lois
+ * Implementación de la interfaz Reserva, implementa los métodos CRUD y la conexión a la base de datos de RESERVA.
+ */
 public class ReservaDAOImp implements IReservaDAO {
 	int anyoDev;
 	int mesDev;
@@ -20,6 +24,10 @@ public class ReservaDAOImp implements IReservaDAO {
 	static String idmax;
 	protected static ConnectionManager connManager;
 
+	/**
+	 * Constructor por defecto. Intenta la conexión a la connectionstring = "alquilervehhiculosBS"
+	 * @throws DAOExcepcion
+	 */
 	public ReservaDAOImp() throws DAOExcepcion {
 		super();
 		try{
@@ -30,6 +38,11 @@ public class ReservaDAOImp implements IReservaDAO {
 			}
 	}
 
+	/**
+	 * Crea una nueva reserva en la base de datos.
+	 * @param reserva El objeto reserva a añadir
+	 * @throws DAOExcepcion Lanzada cuando hay un error en la sentencia SQL
+	 */
 	public void crearReserva(ReservaDTO reserva) throws DAOExcepcion{
 		try{
 	    	anyoDev=reserva.getFechaDevolucion().getYear();
@@ -48,6 +61,11 @@ public class ReservaDAOImp implements IReservaDAO {
 		catch (SQLException e){
 			e.printStackTrace();}
 	}
+	/**
+	 * Obtiene la lista de todas las reservas en la base de datos.
+	 * @return La lista de las reservas.
+	 * @throws DAOExcepcion Lanzada cuando hay un error al acceder a la base de datos, o los datos contenidos son incorrectos.
+	 */
 	public List<ReservaDTO> obtenerReservas() throws DAOExcepcion {
 		try{
 			connManager.connect();
@@ -80,6 +98,12 @@ public class ReservaDAOImp implements IReservaDAO {
 		catch (SQLException e){	throw new DAOExcepcion(e);}	
 		catch (DAOExcepcion e){		throw e;}
 	}
+	/**
+	 * Obtiene las reservas en una sucursas, según su origen,.
+	 * @param idSucursal El id de la sucursal de origen.
+	 * @return La lista de reservas de la sucursal que coindice con el origen.
+	 * @throws DAOExcepcion Lanzada cuando ocurre un error al acceder a la base de datos, o los datos contenidos son incorrectos. 
+	 */
 	public List<ReservaDTO> obtenerReservasPorSucursalOrigen(int idSucursal) throws DAOExcepcion {
 		try{
 			connManager.connect();
@@ -110,6 +134,12 @@ public class ReservaDAOImp implements IReservaDAO {
 		catch (SQLException e){	throw new DAOExcepcion(e);}	
 		catch (DAOExcepcion e){		throw e;}
 	}
+	/**
+	 * Busca una  reserva en la base de datos. Por su ID 
+	 * @param id El id de la reserva a buscar.
+	 * @return El objeto reserva buscado, o null si no existe.
+	 * @throws DAOExcepcion Lanzado cuando ocurre algún error al acceder a la base de datos, o la sentencia es incorrecta.
+	 */
 	public ReservaDTO buscarReserva(int id) throws DAOExcepcion {
 		try{
 			connManager.connect();
@@ -135,6 +165,11 @@ public class ReservaDAOImp implements IReservaDAO {
 		catch (SQLException e){	throw new DAOExcepcion(e);}	
 	}
 	
+	/**
+	 * Busca la reserva más reciente en la base de datos. (ID con valor más alto)
+	 * @return La reserva más reciente (ID más alto)
+	 * @throws DAOExcepcion Lanzada cuando ocurre un error con la sentencia SQL.
+	 */
 	public static String buscarIdMaxReserva() throws DAOExcepcion{
 		
 		try {
