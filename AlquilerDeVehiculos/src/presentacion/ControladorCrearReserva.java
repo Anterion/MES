@@ -66,7 +66,12 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
         
         private Reserva nuevaReserva;
         String cat="";
-        
+
+        /**
+         * Metodo que inicializa el formulario y la verifiaci√≥n de los diferentes campos del mismo.
+         *@param location The location used to resolve relative paths for the root object, or null if the location is not known.
+         *@param resources The resources used to localize the root object, or null ifthe root object was not localized.
+         */
         @Override
         public void initialize(URL location, ResourceBundle resources) {
         stage = new Stage(StageStyle.DECORATED);
@@ -106,7 +111,11 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             }
 
             if (fechaDevolucion.getValue() == null) {
-            	error += "Introduce la fecha de devoluciÛn\n";
+            	error += "Introduce la fecha de devoluci√≥n\n";
+            }
+
+            if(fechaRecogida.getValue().isAfter(fechaDevolucion.getValue())){
+            	error += "La fecha de devoluci√≥n ha de ser posterior a la de recogida\n";
             }
 
             if (dni.getText().trim().length() == 0) {
@@ -120,7 +129,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             }
 
             if (categoriaAsoc.getSelectionModel().getSelectedItem()== null) {
-            	error += "Selecciona una categorÌa\n";
+            	error += "Selecciona una categor√≠a\n";
             }
 
             if (lugarRec.getSelectionModel().getSelectedItem()== null) {
@@ -128,7 +137,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             }
 
             if (lugarDev.getSelectionModel().getSelectedItem()== null) {
-            	error += "Selecciona una lugar de devoluciÛn\n";
+            	error += "Selecciona una lugar de devoluci√≥n\n";
             }
 
         	
@@ -144,8 +153,8 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
          if(AlquilerVehiculos.getAlquilerVehiculos().buscarCliente(dni.getText())==null){
         	
         	 Alert alerta = new Alert(AlertType.ERROR);
-				alerta.initStyle(StageStyle.UNIFIED);
-				alerta.setContentText("Este DNI no pertenece a ning˙n cliente en nuestra base de datos, a continuaciÛn se mostrar· la ventana para crear un nuevo cliente");
+				alerta.initStyle(StageStyle.DECORATED);
+				alerta.setContentText("Este DNI no pertenece a ning√∫n cliente en nuestra base de datos, a continuaci√≥n se mostrar√° la ventana para crear un nuevo cliente");
 				alerta.setHeaderText("Error DNI");
 				alerta.showAndWait();
 				
