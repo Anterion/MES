@@ -68,7 +68,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
         String cat="";
 
         /**
-         * Metodo que inicializa el formulario y la verifiación de los diferentes campos del mismo.
+         * Metodo que inicializa el formulario y la verifiaciÃ³n de los diferentes campos del mismo.
          *@param location The location used to resolve relative paths for the root object, or null if the location is not known.
          *@param resources The resources used to localize the root object, or null ifthe root object was not localized.
          */
@@ -111,11 +111,11 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             }
 
             if (fechaDevolucion.getValue() == null) {
-            	error += "Introduce la fecha de devolución\n";
+            	error += "Introduce la fecha de devoluciÃ³n\n";
             }
 
             if(fechaRecogida.getValue().isAfter(fechaDevolucion.getValue())){
-            	error += "La fecha de devolución ha de ser posterior a la de recogida probando\n";
+            	error += "La fecha de devoluciÃ³n ha de ser posterior a la de recogida\n";
             }
 
             if (dni.getText().trim().length() == 0) {
@@ -129,7 +129,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             }
 
             if (categoriaAsoc.getSelectionModel().getSelectedItem()== null) {
-            	error += "Selecciona una categoría\n";
+            	error += "Selecciona una categorÃ­a\n";
             }
 
             if (lugarRec.getSelectionModel().getSelectedItem()== null) {
@@ -137,7 +137,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             }
 
             if (lugarDev.getSelectionModel().getSelectedItem()== null) {
-            	error += "Selecciona una lugar de devolución\n";
+            	error += "Selecciona una lugar de devoluciÃ³n\n";
             }
 
 
@@ -154,7 +154,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 
         	 Alert alerta = new Alert(AlertType.ERROR);
 				alerta.initStyle(StageStyle.DECORATED);
-				alerta.setContentText("Este DNI no pertenece a ningún cliente en nuestra base de datos, a continuación se mostrará la ventana para crear un nuevo cliente");
+				alerta.setContentText("Este DNI no pertenece a ningÃºn cliente en nuestra base de datos, a continuaciÃ³n se mostrarÃ¡ la ventana para crear un nuevo cliente");
 				alerta.setHeaderText("Error DNI");
 				alerta.showAndWait();
 
