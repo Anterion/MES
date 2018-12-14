@@ -93,21 +93,45 @@ public class EntregaDTO {
 	public void setCombustible(double combustible) {
 		this.combustible = combustible;
 	}
+	/**
+	 * Obtiene el coche entregado.
+	 * @return El coche entregado.
+	 */
 	public String getCoche() {
 		return coche;
 	}
+	/**
+	 * Establece el coche entregado.
+	 * @param coche El coche entregado.
+	 */
 	public void setCoche(String coche) {
 		this.coche = coche;
 	}
+	/**
+	 * Obtiene el empleado que realiza la entrega
+	 * @return El empleado que realiza la entrega.
+	 */
 	public String getEmpleado() {
 		return empleado;
 	}
+	/**
+	 * Establece el empleado que realiza la entrega.
+	 * @param empleado El empleado que realiza la entrega.
+	 */
 	public void setEmpleado(String empleado) {
 		this.empleado = empleado;
 	}
+	/**
+	 * Obtiene el identificador de esta entrega.
+	 * @return ID de la entrega.
+	 */
 	public int getId() {
 		return id;
 	}
+	/**
+	 * Establece el identificador de la entrega.
+	 * @param id El identificador de la entrega.
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
