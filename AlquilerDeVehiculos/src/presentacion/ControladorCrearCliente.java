@@ -101,6 +101,8 @@ public class ControladorCrearCliente extends ControladorCasoDeUso {
             }
         	if (codigoPostal.getText().trim().length()>0  && codigoPostal.getText().trim().length() != 5) {
                 error += "La longitud del código postal ha de ser de 5 dígitos\n";
+            } else if(!Utility.isInteger(codigoPostal.getText())){
+            	error += "El código postal ha de estar formado solo por números\n";
             }
         	if (poblacion.getText().trim().length() == 0) {
                 error += "Introduce la población\n";

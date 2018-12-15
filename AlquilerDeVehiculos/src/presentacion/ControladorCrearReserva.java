@@ -25,6 +25,7 @@ import logica.AlquilerVehiculos;
 import logica.Categoria;
 import logica.Reserva;
 import logica.Sucursal;
+import logica.Utility;
 import persistencia.ReservaDAOImp;
 
 public class ControladorCrearReserva extends ControladorCasoDeUso{
@@ -132,7 +133,7 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
             if (modAl.getText().trim().length() == 0) {
             	error += "Introcuce una modalidad\n";
             }else{
-            	if(!isInteger(modAl.getText())){
+            	if(!Utility.isInteger(modAl.getText())){
             		error += "La modalidad no puede contener letras\n";
             	}
             }
@@ -226,29 +227,5 @@ public class ControladorCrearReserva extends ControladorCasoDeUso{
 
 
         });
-
-
-        }
-        private static boolean isInteger(String str) {
-            if (str == null) {
-                return false;
-            }
-            if (str.isEmpty()) {
-                return false;
-            }
-            int i = 0;
-            if (str.charAt(0) == '-') {
-                if (str.length() == 1) {
-                    return false;
-                }
-                i = 1;
-            }
-            for (; i < str.length(); i++) {
-                char c = str.charAt(i);
-                if (c < '0' || c > '9') {
-                    return false;
-                }
-            }
-            return true;
         }
 }
