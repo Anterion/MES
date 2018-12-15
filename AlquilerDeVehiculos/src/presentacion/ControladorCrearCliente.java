@@ -1,6 +1,7 @@
 package presentacion;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
@@ -109,6 +110,8 @@ public class ControladorCrearCliente extends ControladorCasoDeUso {
             }
             if (fechaCarnet.getValue() == null) {
             	error += "Introduce la fecha del carnet\n";
+            }else if(fechaCarnet.getValue().isAfter(LocalDate.now())){
+            	error += "La fecha de expecidión no puede ser posterior a hoy "+LocalDate.now()+"\n";
             }
         	if (digitosTC.getText().trim().length() == 0) {
                 error += "Introduce los dígitos de la tarjeta de crédito\n";
