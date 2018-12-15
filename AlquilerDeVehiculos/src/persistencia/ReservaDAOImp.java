@@ -75,10 +75,16 @@ public class ReservaDAOImp implements IReservaDAO {
 	 * @throws DAOExcepcion Lanzada cuando hay un error al acceder a la base de datos, o los datos contenidos son incorrectos.
 	 */
 	public List<ReservaDTO> obtenerReservas() throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
 			getConnManager().connect();
-			ResultSet rs=getConnManager().queryDB("select * from RESERVA");
+			String query =  "select * from RESERVA";
+			st = connManager.getDbConn().prepareStatement(query);
+			rs = st.executeQuery();
 			getConnManager().close();
+			st.close();
+
 			List<ReservaDTO> listaReservaDTO = new ArrayList<ReservaDTO>();
 			try{
 				while (rs.next()){
@@ -103,7 +109,19 @@ public class ReservaDAOImp implements IReservaDAO {
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 		catch (DAOExcepcion e){		throw e;}
 	}
 	/**
@@ -218,11 +236,15 @@ public class ReservaDAOImp implements IReservaDAO {
 	 * @throws DAOExcepcion Lanzada cuando ocurre un error con la sentencia SQL.
 	 */
 	public static String buscarIdMaxReserva() throws DAOExcepcion{
-
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try {
 			getConnManager().connect();
-			ResultSet rs=getConnManager().queryDB("select ID from Reserva");
+			String query = "select ID from Reserva";
+			st = connManager.getDbConn().prepareStatement(query);
+			rs = st.executeQuery();
 			getConnManager().close();
+			st.close();
 
 			while (rs.next()){
 				idmax=rs.getString("ID");
@@ -230,12 +252,20 @@ public class ReservaDAOImp implements IReservaDAO {
 				idmax = Integer.toString(idmaxAux+=1);
 			}
 
-		} catch (SQLException e) {
-
-			e.printStackTrace();
 		}
-
-
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 		return idmax;
 	}
 

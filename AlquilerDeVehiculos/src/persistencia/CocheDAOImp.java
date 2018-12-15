@@ -1,5 +1,6 @@
 package persistencia;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -61,10 +62,16 @@ public class CocheDAOImp implements ICocheDAO {
 	 * @throws DAOExcepcion Lanzada cuando hay un error en la consulta SQL.
 	 */
 	public List<CocheDTO> obtenerCoches(int idSucursal) throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
 			getConnManager().connect();
-			ResultSet rs=getConnManager().queryDB("select * from COCHE where SUCURSAL="+idSucursal+" AND MATRICULA NOT IN (SELECT COCHEASIGNADO FROM ENTREGA)");
+			String query = "select * from COCHE where SUCURSAL= ? AND MATRICULA NOT IN (SELECT COCHEASIGNADO FROM ENTREGA)";
+			st = connManager.getDbConn().prepareStatement(query);
+			st.setInt(1, idSucursal);
+			rs = st.executeQuery();
 			getConnManager().close();
+			st.close();
 
 			List<CocheDTO> listaCocheDTO = new ArrayList<CocheDTO>();
 
@@ -84,7 +91,19 @@ public class CocheDAOImp implements ICocheDAO {
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 		catch (DAOExcepcion e){		throw e;}
 	}
 	public static ConnectionManager getConnManager() {

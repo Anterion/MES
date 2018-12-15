@@ -140,10 +140,15 @@ public class ClienteDAOImp implements IClienteDAO {
 	 */
 	@Override
 	public List<ClienteDTO> obtenerClientes() throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from CLIENTE");
+			String query = "select * from CLIENTE";
+			st = connManager.getDbConn().prepareStatement(query);
+			rs = st.executeQuery();
 			connManager.close();
+			st.close();
 
 			List<ClienteDTO> listaClienteDTO = new ArrayList<ClienteDTO>();
 
@@ -169,7 +174,19 @@ public class ClienteDAOImp implements IClienteDAO {
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 		catch (DAOExcepcion e){		throw e;}
 	}
 
