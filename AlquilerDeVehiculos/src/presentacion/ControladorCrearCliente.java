@@ -122,10 +122,16 @@ public class ControladorCrearCliente extends ControladorCasoDeUso {
             }
         	if (mesTC.getText().trim().length() == 0) {
                 error += "Introduce el mes de caducidad de la tarjeta de crédito\n";
+            }else{
+            	if (mesTC.getText().trim().length()>0 && mesTC.getText().trim().length() != 2) {
+                    error += "Error en el formato del mes: MM\n";
+                }else{
+                	if(Integer.parseInt(mesTC.getText())>12||Integer.parseInt(mesTC.getText())<1){
+                		error += "Error, el mes debe comprender entre los valores 1 y 12\n";
+                	}
+                }
             }
-        	if (mesTC.getText().trim().length()>0 && mesTC.getText().trim().length() != 2) {
-                error += "Error en el formato del mes: MM\n";
-            }
+
         	if (cvc.getText().trim().length() == 0) {
                 error += "Introduce el CVC de la tarjeta de crédito\n";
             }
