@@ -56,7 +56,11 @@ public class ControladorCrearCategoria extends ControladorCasoDeUso {
         aceptar.setOnAction(event -> {
         	String error="";
         	if (nombre.getText().trim().length() == 0) {
-                error += "Introduce la dirección\n";
+                error += "Introduce el nombre de la categoría\n";
+            }else{
+            	if(AlquilerVehiculos.getAlquilerVehiculos().buscarCategoria(nombre.getText()) != null){
+            		error += "La categoria ya existe\n";
+            	}
             }
         	if (nombre.getText().trim().length() > 20) {
                 error += "La longitud máxima para el nombre es de 20 carácteres\n";
