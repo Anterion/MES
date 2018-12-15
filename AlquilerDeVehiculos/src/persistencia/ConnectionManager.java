@@ -63,10 +63,15 @@ public class ConnectionManager {
 	 */
 	public ResultSet queryDB(String sql) throws SQLException {
 		if (dbcon != null) {
-				Statement sentencia = dbcon.createStatement();
+				java.sql.Statement sentencia = dbcon.createStatement();
 				ResultSet res;
-				res = sentencia.executeQuery(sql);
-				sentencia.close();
+				try{
+					res = sentencia.executeQuery(sql);
+					sentencia.close();
+				}
+				catch (SQLException e){
+					sentencia.close();
+				}
 				return res;
 		}
 		return null;

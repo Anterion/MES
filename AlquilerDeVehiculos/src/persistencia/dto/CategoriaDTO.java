@@ -12,7 +12,7 @@ public class CategoriaDTO {
 	private double precioSeguroTRiesgo;
 	private double precioSeguroTerceros;
 	private String nombreCategoriaSuperior;
-	
+
 	/**
 	 * Constructor de categoría
 	 * @param nombre Nombre de la categoría
@@ -31,7 +31,7 @@ public class CategoriaDTO {
 		setNombre(nombre);
 		setPrecioModIlimitada(precioModIlimitada);
 		setPrecioModKms(precioModKms);
-		setPrecioKMModKms(precioKMModKms);
+		setPrecioKmModKms(precioKMModKms);
 		setPrecioSeguroTRiesgo(precioSeguroTRiesgo);
 		setPrecioSeguroTerceros(precioSeguroTerceros);
 		setNombreCategoriaSuperior(nombreCategoriaSuperior);
@@ -114,7 +114,7 @@ public class CategoriaDTO {
 		return precioSeguroTerceros;
 	}
 	/**
-	 * Establece el precio del Seguro a terceros. 
+	 * Establece el precio del Seguro a terceros.
 	 * @param precioSeguroTerceros
 	 */
 	public void setPrecioSeguroTerceros(double precioSeguroTerceros) {

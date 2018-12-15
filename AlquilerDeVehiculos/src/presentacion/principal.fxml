@@ -40,7 +40,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Ayuda">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#AcercaDe" text="Acerca De" /> 
+                <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="Acerca De" />
               </items>
             </Menu>
         </menus>
