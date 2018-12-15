@@ -1,7 +1,9 @@
 package presentacion;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -114,23 +116,45 @@ public class ControladorCrearCliente extends ControladorCasoDeUso {
         	if (digitosTC.getText().trim().length()>0 && digitosTC.getText().trim().length() != 16) {
                 error += "Introduce los 16 dígitos de la tarjeta de crédito sin espacios\n";
             }
+
+        	boolean checkdate = false;
         	if (anyoTC.getText().trim().length() == 0) {
                 error += "Introduce el año de caducidad de la tarjeta de crédito\n";
+                checkdate = true;
+            }else{
+            	if (anyoTC.getText().trim().length()>0 && anyoTC.getText().trim().length() != 4) {
+                    error += "Error en el formato del año: AAAA\n";
+                    checkdate = true;
+                }
             }
-        	if (anyoTC.getText().trim().length()>0 && anyoTC.getText().trim().length() != 4) {
-                error += "Error en el formato del año: AAAA\n";
-            }
+
         	if (mesTC.getText().trim().length() == 0) {
                 error += "Introduce el mes de caducidad de la tarjeta de crédito\n";
+                checkdate = true;
             }else{
             	if (mesTC.getText().trim().length()>0 && mesTC.getText().trim().length() != 2) {
                     error += "Error en el formato del mes: MM\n";
+                    checkdate = true;
                 }else{
                 	if(Integer.parseInt(mesTC.getText())>12||Integer.parseInt(mesTC.getText())<1){
                 		error += "Error, el mes debe comprender entre los valores 1 y 12\n";
+                		checkdate = true;
                 	}
                 }
             }
+
+        	if(!checkdate){
+        		Date date = new Date();
+        		String thisYear = new SimpleDateFormat("yyyy").format(date);
+        		String thisMonth = new SimpleDateFormat("MM").format(date);
+        		if(Integer.parseInt(anyoTC.getText()) < Integer.parseInt(thisYear)){
+        			error += "No puede introducir una tarjeta de crédito caducada\n";
+        		}else if(Integer.parseInt(anyoTC.getText()) == Integer.parseInt(thisYear)){
+        			if(Integer.parseInt(mesTC.getText())<Integer.parseInt(thisMonth)){
+        				error += "No puede introducir una tarjeta de crédito caducada\n";
+        			}
+        		}
+        	}
 
         	if (cvc.getText().trim().length() == 0) {
                 error += "Introduce el CVC de la tarjeta de crédito\n";
