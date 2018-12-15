@@ -83,13 +83,13 @@ public class CategoriaDTO {
 	 * Ontiene el precio en modalidad por km.
 	 * @return
 	 */
-	public double getPrecioKMModKms() {
+	public double getPrecioKmModKms() {
 		return precioKMModKms;
 	}
 	/**Establece el precio en modalidad por km.
 	 * @param precioKMModKms
 	 */
-	public void setPrecioKMModKms(double precioKMModKms) {
+	public void setPrecioKmModKms(double precioKMModKms) {
 		this.precioKMModKms = precioKMModKms;
 	}
 	/**

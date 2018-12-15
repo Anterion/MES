@@ -2,6 +2,8 @@ package persistencia;
 
 import java.sql.*;
 
+import org.hsqldb.Statement;
+
 /**
  * @author Lois
  * Se encarga de realizar la conexión y desconexión al servidor SQL.
@@ -49,6 +51,7 @@ public class ConnectionManager {
 		if (dbcon != null) {
 				Statement sentencia = dbcon.createStatement();
 				sentencia.executeUpdate(sql);
+				sentencia.close();
 		}
 	}
 
@@ -61,7 +64,10 @@ public class ConnectionManager {
 	public ResultSet queryDB(String sql) throws SQLException {
 		if (dbcon != null) {
 				Statement sentencia = dbcon.createStatement();
-				return sentencia.executeQuery(sql);
+				ResultSet res;
+				res = sentencia.executeQuery(sql);
+				sentencia.close();
+				return res;
 		}
 		return null;
 	}

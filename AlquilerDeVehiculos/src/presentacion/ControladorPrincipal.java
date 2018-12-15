@@ -91,7 +91,7 @@ public class ControladorPrincipal {
 		Platform.exit(); 
 		}
 	@FXML
-	void AcercaDe(ActionEvent event){
+	void acercaDe(ActionEvent event){
 		Alert alerta = new Alert(AlertType.INFORMATION);
 		alerta.initStyle(StageStyle.DECORATED);
 		alerta.setContentText("Práctica realizada por:\n\nJavier Cruz Selvi\nCarlos García Del Río\nAlejandro Gil Contreras\nAntoni Giménez Rodríguez");

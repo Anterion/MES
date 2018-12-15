@@ -34,8 +34,11 @@ public class AlquilerVehiculos {
 		mapCoche = new HashMap<String, Coche>();
 		mapEntrega = new HashMap<Integer, Entrega>();
 		try{
-		this.dal= DAL.getDAL();
-		} catch(DAOExcepcion e){}
+			this.dal= DAL.getDAL();
+		} 
+		catch(DAOExcepcion e){
+			System.out.println(e.printStackTrace());
+		}
 		cargarSistema();
 		
 	}

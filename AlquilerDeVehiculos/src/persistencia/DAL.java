@@ -175,7 +175,9 @@ public class DAL {
     public void crearReserva(ReservaDTO reserva) {
     	try {
     		reservaDAO.crearReserva(reserva);
-    	}catch (DAOExcepcion e) { }
+    	}catch (DAOExcepcion e) {
+    		e.printStackTrace();
+    	}
     }
     /**
      * Busca un cliente por su ID (dni)
