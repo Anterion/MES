@@ -45,31 +45,44 @@ public class EntregaDAOImp implements IEntregaDAO {
 	@Override
 	public List<EntregaDTO> obtenerEntregas() throws DAOExcepcion {
 		List<EntregaDTO> listaEntregaDTO = new ArrayList<EntregaDTO>();
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try {
 			getConnManager().connect();
-			ResultSet rs=getConnManager().queryDB("select * from ENTREGA");
+			String query =  "select * from ENTREGA";
+			st = connManager.getDbConn().prepareStatement(query);
+			rs = st.executeQuery();
 			getConnManager().close();
+			st.close();
 
-		while (rs.next()){
-			LocalDateTime fecha = LocalDateTime.of(rs.getDate("FECHA").toLocalDate(),
-					rs.getTime("FECHA").toLocalTime());
-			EntregaDTO entDTO = new EntregaDTO(
-					rs.getInt("ID"),
-					fecha,
-					rs.getString("TIPOSEGURO"),
-					rs.getDouble("KMS"),
-					rs.getDouble("COMBUSTIBLE"),
-					rs.getString("COCHEASIGNADO"),
-					rs.getString("EMPLEADOREALIZA")
+			while (rs.next()){
+				LocalDateTime fecha = LocalDateTime.of(rs.getDate("FECHA").toLocalDate(),
+						rs.getTime("FECHA").toLocalTime());
+				EntregaDTO entDTO = new EntregaDTO(
+						rs.getInt("ID"),
+						fecha,
+						rs.getString("TIPOSEGURO"),
+						rs.getDouble("KMS"),
+						rs.getDouble("COMBUSTIBLE"),
+						rs.getString("COCHEASIGNADO"),
+						rs.getString("EMPLEADOREALIZA")
 
-					);
-			listaEntregaDTO.add(entDTO);
-		}
-		} catch (SQLException e) {
+						);
+				listaEntregaDTO.add(entDTO);
+			}
+		}catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
+			throw new DAOExcepcion(e);
 		}
-
-
 		return listaEntregaDTO;
 	}
 
@@ -123,11 +136,15 @@ public class EntregaDAOImp implements IEntregaDAO {
 	 * @throws DAOExcepcion Lanzada cuando se produce un error en la base de datos.
 	 */
 	public static String buscarIdMaxEntrega() throws DAOExcepcion{
-
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try {
 			getConnManager().connect();
-			ResultSet rs=getConnManager().queryDB("select ID from Entrega");
+			String query = "select ID from Entrega";
+			st = connManager.getDbConn().prepareStatement(query);
+			rs = st.executeQuery();
 			getConnManager().close();
+			st.close();
 
 			while (rs.next()){
 				idmax=rs.getString("ID");
@@ -135,9 +152,19 @@ public class EntregaDAOImp implements IEntregaDAO {
 				idmax = Integer.toString(idmaxAux+=1);
 			}
 
-		} catch (SQLException e) {
-
+		}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
+			throw new DAOExcepcion(e);
 		}
 
 

@@ -105,11 +105,15 @@ public class SucursalDAOImp implements ISucursalDAO {
 	 * @throws DAOExcepcion Lanzado cuando ocurre alguna excepción en la consula SQL
 	 */
 	public static String buscarIdMaxReserva() throws DAOExcepcion{
-
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try {
 			getConnManager().connect();
-			ResultSet rs=getConnManager().queryDB("select ID from Sucursal");
+			String query =  "select ID from Sucursal";
+			st = connManager.getDbConn().prepareStatement(query);
+			rs = st.executeQuery();
 			getConnManager().close();
+			st.close();
 
 			while (rs.next()){
 				idmax=rs.getString("ID");
@@ -117,9 +121,19 @@ public class SucursalDAOImp implements ISucursalDAO {
 				idmax = Integer.toString(idmaxAux+=1);
 			}
 
-		} catch (SQLException e) {
-
+		}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
+			throw new DAOExcepcion(e);
 		}
 
 
@@ -131,10 +145,15 @@ public class SucursalDAOImp implements ISucursalDAO {
 	 * @throws DAOExcepcion Lanzada cuando hay una excepción en la consulta SQL
 	 */
 	public List<SucursalDTO> obtenerSucursales() throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
 			getConnManager().connect();
-			ResultSet rs=getConnManager().queryDB("select * from Sucursal");
+			String query = "select * from Sucursal";
+			st = connManager.getDbConn().prepareStatement(query);
+			rs = st.executeQuery();
 			getConnManager().close();
+			st.close();
 
 			List<SucursalDTO> listaSucursalDTO = new ArrayList<SucursalDTO>();
 
@@ -151,7 +170,19 @@ public class SucursalDAOImp implements ISucursalDAO {
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 		catch (DAOExcepcion e){		throw e;}
 
 	}

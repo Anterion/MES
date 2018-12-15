@@ -114,10 +114,15 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 	 * @throws DAOExcepcion Excepción lanzada cuandose produce cualquier error en la consulta SQL.
 	 */
 	public List<CategoriaDTO> obtenerCategorias() throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from CATEGORIA");
+			String query = "select * from CATEGORIA";
+			st = connManager.getDbConn().prepareStatement(query);
+			rs = st.executeQuery();
 			connManager.close();
+			st.close();
 
 			List<CategoriaDTO> listaCategoriaDTO = new ArrayList<CategoriaDTO>();
 
@@ -138,7 +143,19 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 		catch (DAOExcepcion e){		throw e;}
 
 	}
