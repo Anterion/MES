@@ -22,7 +22,7 @@ public class SucursalDAOImp implements ISucursalDAO {
 	public SucursalDAOImp() throws DAOExcepcion {
 		super();
 		try{
-		connManager= new ConnectionManager("alquilervehiculosBD");
+		setConnManager(new ConnectionManager("alquilervehiculosBD"));
 		}
 		catch (ClassNotFoundException e){
 			throw new DAOExcepcion(e);
@@ -33,13 +33,27 @@ public class SucursalDAOImp implements ISucursalDAO {
 	 * @param sucursal El objeto sucursal a añadir.
 	 */
 	public void crearSucursal (SucursalDTO sucursal){
+		PreparedStatement st = null;
 		try {
-			connManager.connect();
-			connManager.updateDB("INSERT INTO SUCURSAL (ID, DIRECCION)"
-					+ " VALUES("+sucursal.getId()+",'"+sucursal.getDireccion().trim()+"')");
-			connManager.close();
+			getConnManager().connect();
+			String query = "INSERT INTO SUCURSAL (ID, DIRECCION)"
+					+ " VALUES(?,?)";
+			st = getConnManager().getDbConn().prepareStatement(query);
+			st.setInt(1,sucursal.getId());
+			st.setString(2, sucursal.getDireccion().trim());
+			st.executeUpdate();
+		    st.close();
+			getConnManager().close();
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			try {
+				if (st != null)
+					st.close();
+				getConnManager().close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 
@@ -51,10 +65,17 @@ public class SucursalDAOImp implements ISucursalDAO {
 	 * @throws DAOExcepcion Lanzada cuando ocurre una excepción en la sentencia SQL
 	 */
 	public SucursalDTO buscarSucursal(int id) throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from Sucursal where ID= '"+id+"'");
-			connManager.close();
+			getConnManager().connect();
+			String query = "select * from Sucursal where ID = ?";
+			st = getConnManager().getDbConn().prepareStatement(query);
+			st.setInt(1, id);
+			rs = st.executeQuery();
+
+			getConnManager().close();
+			st.close();
 
 			if (rs.next())
 				return new SucursalDTO(
@@ -63,7 +84,19 @@ public class SucursalDAOImp implements ISucursalDAO {
 			else
 				return null;
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				getConnManager().close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 	}
 
 	/**
@@ -74,9 +107,9 @@ public class SucursalDAOImp implements ISucursalDAO {
 	public static String buscarIdMaxReserva() throws DAOExcepcion{
 
 		try {
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select ID from Sucursal");
-			connManager.close();
+			getConnManager().connect();
+			ResultSet rs=getConnManager().queryDB("select ID from Sucursal");
+			getConnManager().close();
 
 			while (rs.next()){
 				idmax=rs.getString("ID");
@@ -99,9 +132,9 @@ public class SucursalDAOImp implements ISucursalDAO {
 	 */
 	public List<SucursalDTO> obtenerSucursales() throws DAOExcepcion {
 		try{
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from Sucursal");
-			connManager.close();
+			getConnManager().connect();
+			ResultSet rs=getConnManager().queryDB("select * from Sucursal");
+			getConnManager().close();
 
 			List<SucursalDTO> listaSucursalDTO = new ArrayList<SucursalDTO>();
 
@@ -121,5 +154,11 @@ public class SucursalDAOImp implements ISucursalDAO {
 		catch (SQLException e){	throw new DAOExcepcion(e);}
 		catch (DAOExcepcion e){		throw e;}
 
+	}
+	public static ConnectionManager getConnManager() {
+		return connManager;
+	}
+	public static void setConnManager(ConnectionManager connManager) {
+		SucursalDAOImp.connManager = connManager;
 	}
 }

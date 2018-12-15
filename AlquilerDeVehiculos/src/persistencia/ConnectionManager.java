@@ -49,11 +49,11 @@ public class ConnectionManager {
 		}
 	}
 
-	/**
+/*	*//**
 	 * Manda una sentencia de actualización a la base de datos.
 	 * @param sql La sentencia de actualización a enviar.
 	 * @throws SQLException Lanzada cuando ocurre algún error al actualizar la base de datos.
-	 */
+	 *//*
 	public void updateDB(String sql) throws SQLException {
 		if (dbcon != null) {
 				java.sql.Statement sentencia = dbcon.createStatement();
@@ -65,7 +65,7 @@ public class ConnectionManager {
 					sentencia.close();
 				}
 		}
-	}
+	}*/
 
 	/**
 	 * Manda una sentencia SQL arbitraria a la base de datos.

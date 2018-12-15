@@ -30,14 +30,15 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 	 * Crea una nueva categoría y la sincroniza con la base de datos
 	 * @param categoria La nueva categoría a añadir
 	 */
-	public void crearCategoria (CategoriaDTO categoria){
+	public void crearCategoria (CategoriaDTO categoria) {
+		PreparedStatement st = null;
 		try {
 			connManager.connect();
 			String query = "INSERT INTO CATEGORIA ("
 					+ " NOMBRE, PRECIOMODILIMITADA, PRECIOMODKMS, PRECIOSEGUROTRIESGO, PRECIOSEGUROTERCEROS, CATEGORIASUPERIOR, PRECIOKMMODKMS)"
 					+ " VALUES("
 					+ "?,?,?,?,?,?,?)";
-			PreparedStatement st = connManager.getDbConn().prepareStatement(query);
+			st = connManager.getDbConn().prepareStatement(query);
 			st.setString(1, categoria.getNombre().trim());
 			st.setDouble(2, categoria.getPrecioModIlimitada());
 			st.setDouble(3, categoria.getPrecioModKms());
@@ -49,6 +50,14 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 		    st.close();
 			connManager.close();
 		} catch (SQLException e) {
+			try {
+				if (st != null)
+					st.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 	}
@@ -59,10 +68,17 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 	 * @throws DAOExcepcion Excepción lanzada cuando se produce un error en la consulta SQL.
 	 */
 	public CategoriaDTO buscarCategoria(String nombre) throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from CATEGORIA where NOMBRE= '"+nombre+"'");
+			String query ="select * from CATEGORIA where NOMBRE= ?";
+			st = connManager.getDbConn().prepareStatement(query);
+			st.setString(1, nombre);
+			rs = st.executeQuery();
+
 			connManager.close();
+			st.close();
 
 			if (rs.next())
 				return new CategoriaDTO(
@@ -76,7 +92,19 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 			else
 				return null;
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 	}
 
 

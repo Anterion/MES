@@ -24,7 +24,7 @@ public class ReservaDAOImp implements IReservaDAO {
 	public ReservaDAOImp() throws DAOExcepcion {
 		super();
 		try{
-		connManager= new ConnectionManager("alquilervehiculosBD");
+		setConnManager(new ConnectionManager("alquilervehiculosBD"));
 		}
 		catch (ClassNotFoundException e){
 			throw new DAOExcepcion(e);
@@ -37,16 +37,37 @@ public class ReservaDAOImp implements IReservaDAO {
 	 * @throws DAOExcepcion Lanzada cuando hay un error en la sentencia SQL
 	 */
 	public void crearReserva(ReservaDTO reserva) throws DAOExcepcion{
+		PreparedStatement st = null;
 		try{
 			completoDev=reserva.getFechaDevolucion().toString();
 			completoRec=reserva.getFechaRecogida().toString();
-			connManager.connect();
-			connManager.updateDB("INSERT INTO RESERVA (ID, FECHARECOGIDA, FECHADEVOLUCION, MODALIDADALQUILER, CATEGORIA, CLIENTEREALIZA, SUCURSALRECOGIDA, SUCURSALDEVOLUCION)"
-					+ " VALUES("+reserva.getId()+",'"+completoRec+"','"+completoDev+"','"+reserva.getModalidadAlquiler()+"','"+reserva.getNombreCategoria().trim()+"','"+reserva.getDniCliente().trim()+"',"+reserva.getIdSucursalRecogida()+","+reserva.getIdSucursalDevolucion()+")");
-			connManager.close();
+			getConnManager().connect();
+			String query = "INSERT INTO RESERVA (ID, FECHARECOGIDA, FECHADEVOLUCION, MODALIDADALQUILER, CATEGORIA, CLIENTEREALIZA, SUCURSALRECOGIDA, SUCURSALDEVOLUCION)"
+					+ " VALUES(?,?,?,?,?,?,?,?)";
+			st = getConnManager().getDbConn().prepareStatement(query);
+			st.setInt(1, reserva.getId());
+			st.setString(2, completoRec);
+			st.setString(3, completoDev);
+			st.setInt(4, reserva.getModalidadAlquiler());
+			st.setString(5, reserva.getNombreCategoria().trim());
+			st.setString(6,  reserva.getDniCliente());
+			st.setInt(7, reserva.getIdSucursalRecogida());
+			st.setLong(8, reserva.getIdSucursalDevolucion());
+			st.executeUpdate();
+		    st.close();
+			getConnManager().close();
+
+		} catch (SQLException e) {
+			try {
+				if (st != null)
+					st.close();
+				getConnManager().close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
 		}
-		catch (SQLException e){
-			e.printStackTrace();}
 	}
 	/**
 	 * Obtiene la lista de todas las reservas en la base de datos.
@@ -55,9 +76,9 @@ public class ReservaDAOImp implements IReservaDAO {
 	 */
 	public List<ReservaDTO> obtenerReservas() throws DAOExcepcion {
 		try{
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from RESERVA");
-			connManager.close();
+			getConnManager().connect();
+			ResultSet rs=getConnManager().queryDB("select * from RESERVA");
+			getConnManager().close();
 			List<ReservaDTO> listaReservaDTO = new ArrayList<ReservaDTO>();
 			try{
 				while (rs.next()){
@@ -92,10 +113,17 @@ public class ReservaDAOImp implements IReservaDAO {
 	 * @throws DAOExcepcion Lanzada cuando ocurre un error al acceder a la base de datos, o los datos contenidos son incorrectos.
 	 */
 	public List<ReservaDTO> obtenerReservasPorSucursalOrigen(int idSucursal) throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from RESERVA where SUCURSALRECOGIDA= "+idSucursal);
-			connManager.close();
+			getConnManager().connect();
+			String query = "select * from RESERVA where SUCURSALRECOGIDA= ?";
+			st = getConnManager().getDbConn().prepareStatement(query);
+			st.setInt(1, idSucursal);
+			rs = st.executeQuery();
+
+			getConnManager().close();
+			st.close();
 			List<ReservaDTO> listaReservaDTO = new ArrayList<ReservaDTO>();
 			try{
 				while (rs.next()){
@@ -118,7 +146,19 @@ public class ReservaDAOImp implements IReservaDAO {
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				getConnManager().close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 		catch (DAOExcepcion e){		throw e;}
 	}
 	/**
@@ -128,10 +168,18 @@ public class ReservaDAOImp implements IReservaDAO {
 	 * @throws DAOExcepcion Lanzado cuando ocurre algún error al acceder a la base de datos, o la sentencia es incorrecta.
 	 */
 	public ReservaDTO buscarReserva(int id) throws DAOExcepcion {
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from Reserva where ID= "+id);
-			connManager.close();
+			getConnManager().connect();
+			String query = "select * from Reserva where ID= ?";
+			st = getConnManager().getDbConn().prepareStatement(query);
+			st.setInt(1, id);
+			rs = st.executeQuery();
+
+			getConnManager().close();
+			st.close();
+
 			if (rs.next()){
 				LocalDateTime fechaRecogida = LocalDateTime.of(rs.getDate("FECHARECOGIDA").toLocalDate(),
 						rs.getTime("FECHARECOGIDA").toLocalTime());
@@ -149,7 +197,19 @@ public class ReservaDAOImp implements IReservaDAO {
 			}else
 				return null;
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				getConnManager().close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 	}
 
 	/**
@@ -160,9 +220,9 @@ public class ReservaDAOImp implements IReservaDAO {
 	public static String buscarIdMaxReserva() throws DAOExcepcion{
 
 		try {
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select ID from Reserva");
-			connManager.close();
+			getConnManager().connect();
+			ResultSet rs=getConnManager().queryDB("select ID from Reserva");
+			getConnManager().close();
 
 			while (rs.next()){
 				idmax=rs.getString("ID");
@@ -177,5 +237,13 @@ public class ReservaDAOImp implements IReservaDAO {
 
 
 		return idmax;
+	}
+
+	public static ConnectionManager getConnManager() {
+		return connManager;
+	}
+
+	public static void setConnManager(ConnectionManager connManager) {
+		ReservaDAOImp.connManager = connManager;
 	}
 }

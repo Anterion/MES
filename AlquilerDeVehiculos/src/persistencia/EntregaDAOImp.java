@@ -1,5 +1,6 @@
 package persistencia;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class EntregaDAOImp implements IEntregaDAO {
 	public EntregaDAOImp() throws DAOExcepcion {
 		super();
 		try{
-			connManager= new ConnectionManager("alquilervehiculosBD");
+			setConnManager(new ConnectionManager("alquilervehiculosBD"));
 		}
 		catch (ClassNotFoundException e){
 			throw new DAOExcepcion(e);
@@ -45,9 +46,9 @@ public class EntregaDAOImp implements IEntregaDAO {
 	public List<EntregaDTO> obtenerEntregas() throws DAOExcepcion {
 		List<EntregaDTO> listaEntregaDTO = new ArrayList<EntregaDTO>();
 		try {
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from ENTREGA");
-			connManager.close();
+			getConnManager().connect();
+			ResultSet rs=getConnManager().queryDB("select * from ENTREGA");
+			getConnManager().close();
 
 		while (rs.next()){
 			LocalDateTime fecha = LocalDateTime.of(rs.getDate("FECHA").toLocalDate(),
@@ -79,6 +80,7 @@ public class EntregaDAOImp implements IEntregaDAO {
 	 */
 	@Override
 	public void crearEntrega(EntregaDTO entregaDTO) throws DAOExcepcion {
+		PreparedStatement st = null;
 		try {
 			anyo=entregaDTO.getFecha().getYear();
 			mes=entregaDTO.getFecha().getMonthValue();
@@ -86,12 +88,31 @@ public class EntregaDAOImp implements IEntregaDAO {
 			completo=anyo+"-"+mes+"-"+dia+" "+hora;
 			System.out.println("Sin trim:" +entregaDTO.getCoche()+"final Longitud: "+entregaDTO.getCoche().length());
 			System.out.println("Con trim:" +entregaDTO.getCoche().trim()+"final Longitud: "+entregaDTO.getCoche().trim().length());
-			connManager.connect();
-			connManager.updateDB("INSERT INTO ENTREGA (ID,FECHA,TIPOSEGURO,KMS,COMBUSTIBLE,COCHEASIGNADO,EMPLEADOREALIZA)"
-					+ " VALUES("+entregaDTO.getId()+",'"+completo+"','"+entregaDTO.getTipoSeguro()+"',"+entregaDTO.getKms()+","+entregaDTO.getCombustible()+",'"+entregaDTO.getCoche().trim()+"','"+entregaDTO.getEmpleado()+"')");
-			connManager.close();
+			getConnManager().connect();
+			String query ="INSERT INTO ENTREGA (ID,FECHA,TIPOSEGURO,KMS,COMBUSTIBLE,COCHEASIGNADO,EMPLEADOREALIZA)"
+					+ " VALUES("
+					+ "?,?,?,?,?,?,?)";
+			st = getConnManager().getDbConn().prepareStatement(query);
+			st.setInt(1, entregaDTO.getId());
+			st.setString(2, completo);
+			st.setString(3, entregaDTO.getTipoSeguro());
+			st.setDouble(4, entregaDTO.getKms());
+			st.setDouble(5, entregaDTO.getCombustible());
+			st.setString(6, entregaDTO.getCoche().trim());
+			st.setString(7, entregaDTO.getEmpleado());
+			st.executeUpdate();
+			getConnManager().close();
+			st.close();
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			try {
+				if (st != null)
+					st.close();
+				getConnManager().close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 	}
@@ -104,9 +125,9 @@ public class EntregaDAOImp implements IEntregaDAO {
 	public static String buscarIdMaxEntrega() throws DAOExcepcion{
 
 		try {
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select ID from Entrega");
-			connManager.close();
+			getConnManager().connect();
+			ResultSet rs=getConnManager().queryDB("select ID from Entrega");
+			getConnManager().close();
 
 			while (rs.next()){
 				idmax=rs.getString("ID");
@@ -121,6 +142,14 @@ public class EntregaDAOImp implements IEntregaDAO {
 
 
 		return idmax;
+	}
+
+	private static ConnectionManager getConnManager() {
+		return connManager;
+	}
+
+	private static void setConnManager(ConnectionManager connManager) {
+		EntregaDAOImp.connManager = connManager;
 	}
 
 }

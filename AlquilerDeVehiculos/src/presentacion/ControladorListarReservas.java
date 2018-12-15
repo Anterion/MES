@@ -114,14 +114,14 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 	 * @param matr
 	 */
 	public void setMat(String matr){
-		ControladorListarReservas.matriculaCoche=matr;
+		ControladorListarReservas.setMatriculaCoche(matr);
 	}
 	/**
 	 * Obtiene la matrícula del coche actual.
 	 * @return
 	 */
 	public static String getMat(){
-		return matriculaCoche;
+		return getMatriculaCoche();
 	}
 	public static String getIdReserva(){
 		return id;
@@ -182,5 +182,11 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 		});
 
     }
+	private static String getMatriculaCoche() {
+		return matriculaCoche;
+	}
+	private static void setMatriculaCoche(String matriculaCoche) {
+		ControladorListarReservas.matriculaCoche = matriculaCoche;
+	}
 
 }

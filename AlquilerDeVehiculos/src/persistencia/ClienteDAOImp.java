@@ -29,7 +29,7 @@ public class ClienteDAOImp implements IClienteDAO {
 		try{
 		connManager= new ConnectionManager("alquilervehiculosBD");
 		}
-		catch (ClassNotFoundException e){	
+		catch (ClassNotFoundException e){
 			throw new DAOExcepcion(e);
 			}
 	}
@@ -40,18 +40,42 @@ public class ClienteDAOImp implements IClienteDAO {
 	 * @throws DAOExcepcion Lanzada cuando se produce un error de SQL,
 	 */
 	public void crearCliente(ClienteDTO cliente) throws DAOExcepcion{
+		PreparedStatement st = null;
 		try{
 			anyo=cliente.getFechaCanetConducir().getYear();
 			mes=cliente.getFechaCanetConducir().getMonthValue();
 			dia=cliente.getFechaCanetConducir().getDayOfMonth();
 			completo=anyo+"-"+mes+"-"+dia+" "+hora;
 			connManager.connect();
-			connManager.updateDB("INSERT INTO CLIENTE (DNI, NOMBREAPELLIDOS, DIRECCION, POBLACION, CODPOSTAL, FECHACARNETCONDUCIR, DIGITOSTC,MESTC, \"a\u00f1oTC\", CVCTC, TIPOTC)"
-					+ " VALUES('"+cliente.getDni().trim()+"','"+cliente.getNombreyApellidos().trim()+"','"+cliente.getDireccion().trim()+"','"+cliente.getPoblacion().trim()+"','"+cliente.getCodPostal().trim()+"','"+completo+"','"+cliente.getDigitosTC().trim()+"',"+cliente.getMesTC()+","+cliente.getAñoTC()+","+cliente.getCvcTC()+",'"+cliente.getTipoTC().trim()+"')");						
+			String query = "INSERT INTO CLIENTE (DNI, NOMBREAPELLIDOS, DIRECCION, POBLACION, CODPOSTAL, FECHACARNETCONDUCIR, DIGITOSTC,MESTC, \"a\u00f1oTC\", CVCTC, TIPOTC)"
+					+ " VALUES("
+					+ "?,?,?,?,?,?,?,?,?,?,?)";
+			st = connManager.getDbConn().prepareStatement(query);
+			st.setString(1, cliente.getDni().trim());
+			st.setString(2, cliente.getNombreyApellidos().trim());
+			st.setString(3, cliente.getDireccion().trim());
+			st.setString(4, cliente.getPoblacion().trim());
+			st.setString(5, cliente.getCodPostal().trim());
+			st.setString(6, completo);
+			st.setString(7, cliente.getDigitosTC().trim());
+			st.setInt(8, cliente.getMesTC());
+			st.setInt(9,  cliente.getAñoTC());
+			st.setInt(10,  cliente.getCvcTC());
+			st.setString(11, cliente.getTipoTC().trim());
+			st.close();
 			connManager.close();
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}
-		
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -61,12 +85,17 @@ public class ClienteDAOImp implements IClienteDAO {
 	 * @throws DAOExcepcion Lanzada cuando ocurre cualquier error en la consulta SQL.
 	 */
 	public ClienteDTO buscarCliente(String dni) throws DAOExcepcion {
-		
+		PreparedStatement st = null;
+		ResultSet rs = null;
 		try{
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from CLIENTE where DNI= '"+dni+"'");
+			String query = "select * from CLIENTE where DNI= ?";
+			st = connManager.getDbConn().prepareStatement(query);
+			st.setString(1, dni);
+			rs = st.executeQuery();
 			connManager.close();
-		
+			st.close();
+
 			if (rs.next()){
 				LocalDateTime fechaCanetConducir = LocalDateTime.of(rs.getDate("FECHACARNETCONDUCIR").toLocalDate(),
 						rs.getTime("FECHACARNETCONDUCIR").toLocalTime());
@@ -82,14 +111,26 @@ public class ClienteDAOImp implements IClienteDAO {
 						rs.getInt("MESTC"),
 						rs.getInt("AÑOTC"),
 						rs.getInt("CVCTC"),
-						rs.getString("TIPOTC"));	
-	
+						rs.getString("TIPOTC"));
+
 				//System.out.println(prueba.getDni());
 				 return prueba;
 			}else
-				return null;	
+				return null;
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}	
+		catch (SQLException e){
+			try {
+				if (st != null)
+					st.close();
+				if (rs != null)
+					rs.close();
+				connManager.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new DAOExcepcion(e);
+		}
 	}
 
 	/**
@@ -101,12 +142,12 @@ public class ClienteDAOImp implements IClienteDAO {
 	public List<ClienteDTO> obtenerClientes() throws DAOExcepcion {
 		try{
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from CLIENTE");						
+			ResultSet rs=connManager.queryDB("select * from CLIENTE");
 			connManager.close();
-	  	  
+
 			List<ClienteDTO> listaClienteDTO = new ArrayList<ClienteDTO>();
-				
-			try{				
+
+			try{
 				while (rs.next()){
 					LocalDateTime fechaCanetConducir = LocalDateTime.of(rs.getDate("FECHACARNETCONDUCIR").toLocalDate(),
 							rs.getTime("FECHACARNETCONDUCIR").toLocalTime());
@@ -121,14 +162,14 @@ public class ClienteDAOImp implements IClienteDAO {
 							rs.getInt("MESTC"),
 							rs.getInt("AÑOTC"),
 							rs.getInt("CVCTC"),
-							rs.getString("TIPOTC"));	
+							rs.getString("TIPOTC"));
 					listaClienteDTO.add(cliDTO);
 				}
 				return listaClienteDTO;
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}	
+		catch (SQLException e){	throw new DAOExcepcion(e);}
 		catch (DAOExcepcion e){		throw e;}
 	}
 

@@ -13,7 +13,7 @@ import persistencia.dto.CocheDTO;
  * Implementación de la interfaz ICocheDao, implementa métodos de acceso a la base de datos y la conexión a esta.
  */
 public class CocheDAOImp implements ICocheDAO {
-	static private ConnectionManager connManager;
+	private static ConnectionManager connManager;
 
 	/**
 	 * Constructor por defecto. Conecta la clase a la base de datos.
@@ -22,7 +22,7 @@ public class CocheDAOImp implements ICocheDAO {
 	public CocheDAOImp() throws DAOExcepcion {
 		super();
 		try{
-			connManager= new ConnectionManager("alquilervehiculosBD");
+			setConnManager(new ConnectionManager("alquilervehiculosBD"));
 		}
 		catch (ClassNotFoundException e){
 			throw new DAOExcepcion(e);
@@ -62,9 +62,9 @@ public class CocheDAOImp implements ICocheDAO {
 	 */
 	public List<CocheDTO> obtenerCoches(int idSucursal) throws DAOExcepcion {
 		try{
-			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from COCHE where SUCURSAL="+idSucursal+" AND MATRICULA NOT IN (SELECT COCHEASIGNADO FROM ENTREGA)");
-			connManager.close();
+			getConnManager().connect();
+			ResultSet rs=getConnManager().queryDB("select * from COCHE where SUCURSAL="+idSucursal+" AND MATRICULA NOT IN (SELECT COCHEASIGNADO FROM ENTREGA)");
+			getConnManager().close();
 
 			List<CocheDTO> listaCocheDTO = new ArrayList<CocheDTO>();
 
@@ -86,5 +86,11 @@ public class CocheDAOImp implements ICocheDAO {
 		}
 		catch (SQLException e){	throw new DAOExcepcion(e);}
 		catch (DAOExcepcion e){		throw e;}
+	}
+	public static ConnectionManager getConnManager() {
+		return connManager;
+	}
+	public static void setConnManager(ConnectionManager connManager) {
+		CocheDAOImp.connManager = connManager;
 	}
 }
