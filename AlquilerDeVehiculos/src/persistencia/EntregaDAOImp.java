@@ -14,7 +14,7 @@ import persistencia.dto.EntregaDTO;
  * Implementación de la interfaz IEntregaDAO, gestiona la conexión a la base de datos y el acesso para la tabla entregas.
  */
 public class EntregaDAOImp implements IEntregaDAO {
-	protected static ConnectionManager connManager;
+	static private ConnectionManager connManager;
 	static String idmax;
 	int anyo;
 	int mes;
@@ -31,7 +31,7 @@ public class EntregaDAOImp implements IEntregaDAO {
 		try{
 			connManager= new ConnectionManager("alquilervehiculosBD");
 		}
-		catch (ClassNotFoundException e){	
+		catch (ClassNotFoundException e){
 			throw new DAOExcepcion(e);
 			}
 	}
@@ -46,9 +46,9 @@ public class EntregaDAOImp implements IEntregaDAO {
 		List<EntregaDTO> listaEntregaDTO = new ArrayList<EntregaDTO>();
 		try {
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from ENTREGA");						
+			ResultSet rs=connManager.queryDB("select * from ENTREGA");
 			connManager.close();
-			
+
 		while (rs.next()){
 			LocalDateTime fecha = LocalDateTime.of(rs.getDate("FECHA").toLocalDate(),
 					rs.getTime("FECHA").toLocalTime());
@@ -60,15 +60,15 @@ public class EntregaDAOImp implements IEntregaDAO {
 					rs.getDouble("COMBUSTIBLE"),
 					rs.getString("COCHEASIGNADO"),
 					rs.getString("EMPLEADOREALIZA")
-					
-					);	 
+
+					);
 			listaEntregaDTO.add(entDTO);
 		}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-  	  
-		
+
+
 		return listaEntregaDTO;
 	}
 
@@ -88,38 +88,38 @@ public class EntregaDAOImp implements IEntregaDAO {
 			System.out.println("Con trim:" +entregaDTO.getCoche().trim()+"final Longitud: "+entregaDTO.getCoche().trim().length());
 			connManager.connect();
 			connManager.updateDB("INSERT INTO ENTREGA (ID,FECHA,TIPOSEGURO,KMS,COMBUSTIBLE,COCHEASIGNADO,EMPLEADOREALIZA)"
-					+ " VALUES("+entregaDTO.getId()+",'"+completo+"','"+entregaDTO.getTipoSeguro()+"',"+entregaDTO.getKms()+","+entregaDTO.getCombustible()+",'"+entregaDTO.getCoche().trim()+"','"+entregaDTO.getEmpleado()+"')");						
+					+ " VALUES("+entregaDTO.getId()+",'"+completo+"','"+entregaDTO.getTipoSeguro()+"',"+entregaDTO.getKms()+","+entregaDTO.getCombustible()+",'"+entregaDTO.getCoche().trim()+"','"+entregaDTO.getEmpleado()+"')");
 			connManager.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-		
+
 	/**
 	 * Devuelve la entrega con el ID máximo (la última entrega)
 	 * @return La última entrega realizada.
 	 * @throws DAOExcepcion Lanzada cuando se produce un error en la base de datos.
 	 */
 	public static String buscarIdMaxEntrega() throws DAOExcepcion{
-		
+
 		try {
 			connManager.connect();
 			ResultSet rs=connManager.queryDB("select ID from Entrega");
 			connManager.close();
-			
+
 			while (rs.next()){
 				idmax=rs.getString("ID");
 				int idmaxAux=Integer.parseInt(idmax);
 				idmax = Integer.toString(idmaxAux+=1);
 			}
-		
+
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
-		
-		
+
+
 		return idmax;
 	}
 

@@ -13,7 +13,7 @@ import persistencia.dto.CocheDTO;
  * Implementación de la interfaz ICocheDao, implementa métodos de acceso a la base de datos y la conexión a esta.
  */
 public class CocheDAOImp implements ICocheDAO {
-	protected static ConnectionManager connManager;
+	static private ConnectionManager connManager;
 
 	/**
 	 * Constructor por defecto. Conecta la clase a la base de datos.
@@ -24,21 +24,21 @@ public class CocheDAOImp implements ICocheDAO {
 		try{
 			connManager= new ConnectionManager("alquilervehiculosBD");
 		}
-		catch (ClassNotFoundException e){	
+		catch (ClassNotFoundException e){
 			throw new DAOExcepcion(e);
 			}
 	}
 	/*public List<CocheDTO> obtenerCoches() throws DAOExcepcion {
 		try{
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from COCHE WHERE MATRICULA NOT IN (SELECT COCHEASIGNADO FROM ENTREGA)");	
+			ResultSet rs=connManager.queryDB("select * from COCHE WHERE MATRICULA NOT IN (SELECT COCHEASIGNADO FROM ENTREGA)");
 			connManager.close();
-	  	  
+
 			List<CocheDTO> listaCocheDTO = new ArrayList<CocheDTO>();
-				
-			try{				
+
+			try{
 				while (rs.next()){
-					
+
 					CocheDTO cocDTO = new CocheDTO(
 							rs.getString("MATRICULA"),
 							rs.getDouble("KMSACTUALES"),
@@ -51,7 +51,7 @@ public class CocheDAOImp implements ICocheDAO {
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}	
+		catch (SQLException e){	throw new DAOExcepcion(e);}
 		catch (DAOExcepcion e){		throw e;}
 	}*/
 	/**
@@ -63,14 +63,14 @@ public class CocheDAOImp implements ICocheDAO {
 	public List<CocheDTO> obtenerCoches(int idSucursal) throws DAOExcepcion {
 		try{
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from COCHE where SUCURSAL="+idSucursal+" AND MATRICULA NOT IN (SELECT COCHEASIGNADO FROM ENTREGA)");				
+			ResultSet rs=connManager.queryDB("select * from COCHE where SUCURSAL="+idSucursal+" AND MATRICULA NOT IN (SELECT COCHEASIGNADO FROM ENTREGA)");
 			connManager.close();
-	  	 
+
 			List<CocheDTO> listaCocheDTO = new ArrayList<CocheDTO>();
-				
-			try{				
+
+			try{
 				while (rs.next()){
-					
+
 							CocheDTO cocDTO = new CocheDTO(
 									rs.getString("MATRICULA"),
 									rs.getDouble("KMSACTUALES"),
@@ -78,13 +78,13 @@ public class CocheDAOImp implements ICocheDAO {
 									rs.getString("CATEGORIA"),
 									rs.getString("NOMBRE"));
 							listaCocheDTO.add(cocDTO);
-					
+
 				}
 				return listaCocheDTO;
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}	
+		catch (SQLException e){	throw new DAOExcepcion(e);}
 		catch (DAOExcepcion e){		throw e;}
 	}
 }

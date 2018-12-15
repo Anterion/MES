@@ -39,7 +39,6 @@ public class ControladorCrearEntrega extends ControladorCasoDeUso {
 	int anyo;
 	int mes;
 	int dia;
-	String hora="00:00:00";
 	String completo;
 	private Entrega nuevaEntrega;
 	String matricula;

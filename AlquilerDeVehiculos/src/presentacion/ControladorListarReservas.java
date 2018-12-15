@@ -57,7 +57,7 @@ public class ControladorListarReservas extends ControladorCasoDeUso {
 	@FXML
 	private TableColumn<Coche, String> categoria;
 	Categoria categoriaActual;
-	public static String matriculaCoche;
+	private static String matriculaCoche;
 
 
 	static String id;

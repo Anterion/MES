@@ -12,15 +12,15 @@ import persistencia.dto.*;
  * Clase Data Acess Layer. Proporciona aceso simplificado a los datos de la base de datos SQL, hace todas las operaciones CRUD de forma transparente.
  */
 public class DAL {
-	
-	private static DAL instancia;
+
+	private volatile static DAL instancia;
 	private ICategoriaDAO categoriaDAO;
 	private ISucursalDAO sucursalDAO;
 	private IReservaDAO reservaDAO;
 	private IClienteDAO clienteDAO;
 	private ICocheDAO cocheDAO;
 	private IEntregaDAO entregaDAO;
-	
+
 	/**
 	 * Constructor, inicializa los objetos de acceso a los datos.
 	 * @throws DAOExcepcion
@@ -98,7 +98,7 @@ public class DAL {
 		return null;
 		}
 	}
-	
+
 	/**
 	 * Obtiene la lista de todas las entregas que existen
 	 * @return La lista de entregas.
@@ -110,7 +110,7 @@ public class DAL {
 		return null;
 		}
 	}
-	
+
 	/**
 	 * Obtiene la lista de todas las categorías que existen.
 	 * @return La lista de categorías.
@@ -149,7 +149,7 @@ public class DAL {
 	 * @param c El objeto cliente a añadir.
 	 */
 	public void crearCliente(ClienteDTO c) {
-	
+
 		try {
 			clienteDAO.crearCliente(c);
 		} catch (DAOExcepcion e) {
@@ -161,7 +161,7 @@ public class DAL {
 	 * @param en El objeto Entrega a añadir.
 	 */
 	public void crearEntrega(EntregaDTO en) {
-		
+
 		try {
 			entregaDAO.crearEntrega(en);
 		} catch (DAOExcepcion e) {
@@ -189,7 +189,7 @@ public class DAL {
     		return clienteDAO.buscarCliente(dni);
     	} catch (DAOExcepcion e) {
     		return null;
-    	}	
+    	}
     }
     /**
      * Busca una sucursal por su ID
@@ -209,7 +209,7 @@ public class DAL {
 	 * @throws DAOExcepcion Lanzada cuando no se puede crear el objeto.
 	 */
 	private static void crearDAL() throws DAOExcepcion {
-	        if (instancia == null) { 
+	        if (instancia == null) {
 	            instancia = new DAL();
 	        }
 	    }

@@ -40,7 +40,6 @@ public class AlquilerVehiculos {
 			e.printStackTrace();
 		}
 		cargarSistema();
-
 	}
 	/**
 	 * @return El hashmap con los coches disponibles
