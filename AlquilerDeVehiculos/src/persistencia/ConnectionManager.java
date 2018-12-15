@@ -13,6 +13,13 @@ public class ConnectionManager {
 	private Connection dbcon = null;
 
 	/**
+	 * Obtiene la conexion a la base de datos.
+	 * @return El objeto connection.
+	 */
+	public Connection getDbConn(){
+		return this.dbcon;
+	}
+	/**
 	 * Constructor, crea la conexión a la clase java hsqldb
 	 * @param dbname Connection String de la base de datos.
 	 * @throws ClassNotFoundException Lanzada cuando no se encuentra la librería en el proyecto.

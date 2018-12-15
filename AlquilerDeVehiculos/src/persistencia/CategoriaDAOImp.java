@@ -33,11 +33,22 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 	public void crearCategoria (CategoriaDTO categoria){
 		try {
 			connManager.connect();
-			connManager.updateDB("INSERT INTO CATEGORIA (NOMBRE, PRECIOMODILIMITADA, PRECIOMODKMS, PRECIOSEGUROTRIESGO, PRECIOSEGUROTERCEROS, CATEGORIASUPERIOR, PRECIOKMMODKMS)"
-					+ " VALUES('"+categoria.getNombre().trim()+"',"+categoria.getPrecioModIlimitada()+","+categoria.getPrecioModKms()+","+categoria.getPrecioSeguroTRiesgo()+","+categoria.getPrecioSeguroTerceros()+",'"+categoria.getNombreCategoriaSuperior().trim()+"',"+categoria.getPrecioKmModKms()+")");
+			String query = "INSERT INTO CATEGORIA ("
+					+ " NOMBRE, PRECIOMODILIMITADA, PRECIOMODKMS, PRECIOSEGUROTRIESGO, PRECIOSEGUROTERCEROS, CATEGORIASUPERIOR, PRECIOKMMODKMS)"
+					+ " VALUES("
+					+ "?,?,?,?,?,?,?)";
+			PreparedStatement st = connManager.getDbConn().prepareStatement(query);
+			st.setString(1, categoria.getNombre().trim());
+			st.setDouble(2, categoria.getPrecioModIlimitada());
+			st.setDouble(3, categoria.getPrecioModKms());
+			st.setDouble(4, categoria.getPrecioSeguroTRiesgo());
+			st.setDouble(5, categoria.getPrecioSeguroTerceros());
+			st.setString(6, categoria.getNombreCategoriaSuperior().trim());
+			st.setDouble(7, categoria.getPrecioKmModKms());
+			st.executeUpdate();
+		    st.close();
 			connManager.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
