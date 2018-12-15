@@ -49,9 +49,14 @@ public class ConnectionManager {
 	 */
 	public void updateDB(String sql) throws SQLException {
 		if (dbcon != null) {
-				Statement sentencia = dbcon.createStatement();
-				sentencia.executeUpdate(sql);
-				sentencia.close();
+				java.sql.Statement sentencia = dbcon.createStatement();
+				try{
+					sentencia.executeUpdate(sql);
+					sentencia.close();
+				}
+				catch (SQLException e){
+					sentencia.close();
+				}
 		}
 	}
 

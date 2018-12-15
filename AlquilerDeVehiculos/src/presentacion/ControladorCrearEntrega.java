@@ -35,11 +35,6 @@ public class ControladorCrearEntrega extends ControladorCasoDeUso {
 	private TextField id;
 	@FXML
 	private TextField combustible;
-	LocalDate fechaSistemaFinal;
-	int anyo;
-	int mes;
-	int dia;
-	String completo;
 	private Entrega nuevaEntrega;
 	String matricula;
 

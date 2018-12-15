@@ -22,7 +22,7 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 		try{
 			connManager= new ConnectionManager("alquilervehiculosBD");
 		}
-		catch (ClassNotFoundException e){	
+		catch (ClassNotFoundException e){
 			throw new DAOExcepcion(e);
 			}
 	}
@@ -34,7 +34,7 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 		try {
 			connManager.connect();
 			connManager.updateDB("INSERT INTO CATEGORIA (NOMBRE, PRECIOMODILIMITADA, PRECIOMODKMS, PRECIOSEGUROTRIESGO, PRECIOSEGUROTERCEROS, CATEGORIASUPERIOR, PRECIOKMMODKMS)"
-					+ " VALUES('"+categoria.getNombre().trim()+"',"+categoria.getPrecioModIlimitada()+","+categoria.getPrecioModKms()+","+categoria.getPrecioSeguroTRiesgo()+","+categoria.getPrecioSeguroTerceros()+",'"+categoria.getNombreCategoriaSuperior().trim()+"',"+categoria.getPrecioKMModKms()+")");						
+					+ " VALUES('"+categoria.getNombre().trim()+"',"+categoria.getPrecioModIlimitada()+","+categoria.getPrecioModKms()+","+categoria.getPrecioSeguroTRiesgo()+","+categoria.getPrecioSeguroTerceros()+",'"+categoria.getNombreCategoriaSuperior().trim()+"',"+categoria.getPrecioKmModKms()+")");
 			connManager.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -52,7 +52,7 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 			connManager.connect();
 			ResultSet rs=connManager.queryDB("select * from CATEGORIA where NOMBRE= '"+nombre+"'");
 			connManager.close();
-		
+
 			if (rs.next())
 				return new CategoriaDTO(
 							rs.getString("NOMBRE"),
@@ -63,12 +63,12 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 							rs.getDouble("PRECIOSEGUROTERCEROS"),
 							rs.getString("CATEGORIASUPERIOR"));
 			else
-				return null;	
+				return null;
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}	
+		catch (SQLException e){	throw new DAOExcepcion(e);}
 	}
 
-	
+
 	/**
 	 * Lista todas las categorías que existen en la base de datos.
 	 * @return La lista de categorías.
@@ -77,12 +77,12 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 	public List<CategoriaDTO> obtenerCategorias() throws DAOExcepcion {
 		try{
 			connManager.connect();
-			ResultSet rs=connManager.queryDB("select * from CATEGORIA");						
+			ResultSet rs=connManager.queryDB("select * from CATEGORIA");
 			connManager.close();
-	  	  
+
 			List<CategoriaDTO> listaCategoriaDTO = new ArrayList<CategoriaDTO>();
-				
-			try{				
+
+			try{
 				while (rs.next()){
 
 					CategoriaDTO catDTO = new CategoriaDTO(
@@ -92,14 +92,14 @@ public class CategoriaDAOImp implements ICategoriaDAO {
 							rs.getDouble("PRECIOKMMODKMS"),
 							rs.getDouble("PRECIOSEGUROTRIESGO"),
 							rs.getDouble("PRECIOSEGUROTERCEROS"),
-							rs.getString("CATEGORIASUPERIOR"));	 
+							rs.getString("CATEGORIASUPERIOR"));
 					listaCategoriaDTO.add(catDTO);
 				}
 				return listaCategoriaDTO;
 			}
 			catch (Exception e){	throw new DAOExcepcion(e);}
 		}
-		catch (SQLException e){	throw new DAOExcepcion(e);}	
+		catch (SQLException e){	throw new DAOExcepcion(e);}
 		catch (DAOExcepcion e){		throw e;}
 
 	}

@@ -12,13 +12,7 @@ import excepciones.DAOExcepcion;
  * Implementación de la interfaz Reserva, implementa los métodos CRUD y la conexión a la base de datos de RESERVA.
  */
 public class ReservaDAOImp implements IReservaDAO {
-	int anyoDev;
-	int mesDev;
-	int diaDev;
 	String completoDev;
-	int anyoRec;
-	int mesRec;
-	int diaRec;
 	String completoRec;
 	static String idmax;
 	static private ConnectionManager connManager;
@@ -44,14 +38,8 @@ public class ReservaDAOImp implements IReservaDAO {
 	 */
 	public void crearReserva(ReservaDTO reserva) throws DAOExcepcion{
 		try{
-	    	anyoDev=reserva.getFechaDevolucion().getYear();
-			mesDev=reserva.getFechaDevolucion().getMonthValue();
-			diaDev=reserva.getFechaDevolucion().getDayOfMonth();
-			completoDev=anyoDev+"-"+mesDev+"-"+diaDev+" "+hora;
-	    	anyoRec=reserva.getFechaRecogida().getYear();
-			mesRec=reserva.getFechaRecogida().getMonthValue();
-			diaRec=reserva.getFechaRecogida().getDayOfMonth();
-			completoRec=anyoRec+"-"+mesRec+"-"+diaRec+" "+hora;
+			completoDev=reserva.getFechaDevolucion().toString();
+			completoRec=reserva.getFechaRecogida().toString();
 			connManager.connect();
 			connManager.updateDB("INSERT INTO RESERVA (ID, FECHARECOGIDA, FECHADEVOLUCION, MODALIDADALQUILER, CATEGORIA, CLIENTEREALIZA, SUCURSALRECOGIDA, SUCURSALDEVOLUCION)"
 					+ " VALUES("+reserva.getId()+",'"+completoRec+"','"+completoDev+"','"+reserva.getModalidadAlquiler()+"','"+reserva.getNombreCategoria().trim()+"','"+reserva.getDniCliente().trim()+"',"+reserva.getIdSucursalRecogida()+","+reserva.getIdSucursalDevolucion()+")");
