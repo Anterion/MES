@@ -1,0 +1,220 @@
+commit 5a63c123cbaa5fba0dcf264f9f2790fa2349f77e
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sun Dec 16 01:45:27 2018 +0100
+
+    Update .gitignore
+    
+    añadidas las carpetas de bin y data al gitignore
+
+commit 6fad42d178bad8d4aa221183cd6fcffa71d9c9d6
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 22:03:33 2018 +0100
+
+    Solucionado bug 1025
+    
+    Solucionado bug en el que se pedia cambiar un textField por un comboBox para la selección del Tipo de Seguro en el formulario de entrega de reserva.
+
+commit 8662feb6d1e8597d0bd3038c1f1d15a968ecba22
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 20:39:14 2018 +0100
+
+    Solucionado bug 1022
+    
+    Solucionado el bug en el cual se permitian crear clientes introduciendo letras en el campo del codigo postal.
+
+commit 0fc2920227060087bee098f6626c2b71cee12247
+Merge: 6b477ad 1b9cbdd
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 20:05:44 2018 +0100
+
+    Merge branch 'master' of https://github.com/Anterion/MES
+
+commit 6b477ad56868226fc864625e853f00616d9fd915
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 20:04:13 2018 +0100
+
+    Solucionado bug 1021
+    
+    Solucionado bug en el que se perminia crear un cliente con la fecha de expedición de carnet posterior a la actual.
+
+commit 1b9cbdd7809586fb7027abd5d92d0177293a21f7
+Merge: 47b3348 0b629cd
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 15:26:21 2018 +0100
+
+    Merge branch 'master' of https://github.com/Anterion/MES
+
+commit 47b33488c494ff6d8aece9746804a9c165446a8d
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 15:25:30 2018 +0100
+
+    Create .gitignore, add .class
+
+commit 0773109414906b86b292796f317294f3bd30131b
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 15:24:57 2018 +0100
+
+    Ultimo bug SQL de Findbugs. Libre de bugs estáticos.
+
+commit 0b629cd17f671b0af38e081b9a18004cfd944ec3
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 15:15:54 2018 +0100
+
+    Solucionado el bug 1020
+    
+    Solucionado el bug añadiendo una comprobación en la que se prueba que la fecha introducida no es inferior a la actual.
+
+commit b4eb389dbdf3b446cdf5ba4fd879dd735990a2d2
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 13:55:23 2018 +0100
+
+    Findbugs, SQL, y Dodgy code
+
+commit 5db9eeefba39a080b75645c4c5ddb13fe60e7b02
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 12:21:55 2018 +0100
+
+    Corregidos errores SQL en Categoría.
+
+commit a98f01a0bcaabd176405fe2217c0ca63ef0580d3
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 11:58:54 2018 +0100
+
+    Bugs de Performance FindBugs.
+
+commit 9f3218b2f3bcb43f156a9929792c097e5a89a867
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 11:47:32 2018 +0100
+
+    Arreglados bugs de performance de findbugs
+
+commit d022e593c627feea76647d6c2bd3a5d2dec616b7
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 11:26:57 2018 +0100
+
+    Corregidos bugs introducidos al actualizar los bugs del findbugs. Añadida documentación.
+
+commit f210b1a1469bf295f55bf6475de407339dc8dd7c
+Author: erdorath <loisrgil@gmail.com>
+Date:   Sat Dec 15 10:45:03 2018 +0100
+
+    Arreglados bugs de Bad Practice
+
+commit f2ca001ca1deaf434a9f0954464ba7f60045db86
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 02:02:17 2018 +0100
+
+    Solucionado bug 1018
+    
+    Solucionado bug en el que en el campo mes de caducidad de la tarjeta de credigo del formulario de creación de cliente, se podian meter valores mayores de 13 y 0
+
+commit ca12131a5e45eaa90f2a7d171bf9bf1e27ece3d9
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 01:42:00 2018 +0100
+
+    Solucionado bug 1017
+    
+    Bug solucionado el cual no verificaba si la categoria que se queria crear ya estaba creada con anterioridad.
+
+commit 79f82b9c90047b3da99fc1e87174a0588d5aed0e
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 01:16:39 2018 +0100
+
+    Solucionado bug 1016
+    
+    Solucionado bug en el que se verifica si el campo Modalidad Alquiler tiene o no un integer.
+
+commit 41df85a4c4f8104455fa0f92723f497b4d4aeabd
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 00:42:34 2018 +0100
+
+    Solucionado bug 1015
+    
+    Solucionado el bug en el que a la hora de realizar una reserva no se comprobaba si se habia seleccionado un tipo de seguro.
+
+commit 84a1e6bdf2e4180ccdc0dd67c68298995058031b
+Author: Anterion <Anterion69@gmail.com>
+Date:   Sat Dec 15 00:24:12 2018 +0100
+
+    Solucionado bug 1023
+    
+    Solucionado el bug en el que se podia crear un cliente cuyo nombre podia contener caracteres no permitidos como por ejemplo números.
+
+commit 218d427e941b128616344fb41c886250ee45e4b5
+Author: Anterion <Anterion69@gmail.com>
+Date:   Fri Dec 14 23:53:39 2018 +0100
+
+    Bugs mensaje error solucionado
+    
+    Han sido solucionados en su totalidad el bug de que los alert no se pueden ver.
+
+commit 46c8e51769ab7647148f59017c652fb8b97e93d4
+Author: erdorath <loisrgil@gmail.com>
+Date:   Fri Dec 14 23:02:17 2018 +0100
+
+    Javadoc finalizado.
+    
+    Aádidas piezas faltantes del javadoc. Javadoc finalizado en principio.
+
+commit e3db48a50b2348750caf23a45b901ee4d2add1d9
+Author: erdorath <loisrgil@gmail.com>
+Date:   Fri Dec 14 22:41:45 2018 +0100
+
+    Finalizado javadoc hasta DTO.
+
+commit bb22b2da17d39aa16f5062cc49eeb2e248a1ccbe
+Author: erdorath <loisrgil@gmail.com>
+Date:   Fri Dec 14 22:26:39 2018 +0100
+
+    Update EntregaDTO.java
+    
+    Añadido javadoc
+
+commit bfe6eed482858c6c699c18f479d838884489598d
+Merge: 7a33fd6 484116e
+Author: erdorath <loisrgil@gmail.com>
+Date:   Fri Dec 14 22:19:10 2018 +0100
+
+    Merge branch 'master' into Javadoc
+
+commit 7a33fd6644752129df88499870641f0a22b95758
+Author: erdorath <loisrgil@gmail.com>
+Date:   Fri Dec 14 22:02:47 2018 +0100
+
+    Merged javadocs
+
+commit b23f6a371e4b41ca3e6bf0ce0badcd7292102024
+Author: erdorath <loisrgil@gmail.com>
+Date:   Fri Dec 14 21:46:13 2018 +0100
+
+    Mis cambios
+    
+    Mis cambios
+
+commit 484116e2c9aec046313698adee41cae7e80ce19f
+Author: Anterion <Anterion69@gmail.com>
+Date:   Fri Dec 14 21:44:16 2018 +0100
+
+    Probando el pull
+
+commit d91cef394e73ee24e0a0d0c9b22b78028eacdad7
+Author: Anterion <Anterion69@gmail.com>
+Date:   Fri Dec 14 21:42:35 2018 +0100
+
+    probando1
+    
+    probando
+
+commit 8b061b5514de3e62fcaea16cdc447f78e3764e3c
+Author: Anterion <Anterion69@gmail.com>
+Date:   Fri Dec 14 21:37:19 2018 +0100
+
+    Resueltos 3 bugs
+
+commit 33b23a8b913cbf84506f25a37b4c1bd30706c802
+Author: Anterion <Anterion69@gmail.com>
+Date:   Fri Dec 14 21:21:59 2018 +0100
+
+    First update
+    
+    Primera subida de los datos del proyecto
